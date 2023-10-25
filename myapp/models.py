@@ -1,3 +1,11 @@
-from django.db import models
+from django.db.models import *
+"""
+Debemos crear un modelo para cada tabla que queramos crear en la base de datos.
 
-# Create your models here.
+"""
+
+
+class User(Model):
+    name = CharField(max_length=100)
+    email = CharField(max_length=100)
+    password = CharField(max_length=20)
