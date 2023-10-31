@@ -1,0 +1,8 @@
+Orden -> (ForeignKey a Trazabilidad, si es que cada maquinaria tiene una única orden asociada)
+Marca -> str(100)
+NumeroSerie -> str(100)
+Tipo -> str(100) 
+Año -> DateField 
+Cliente -> ForeignKey a Cliente (si es que cada maquinaria está asociada a un único cliente)
+Problema -> str(100)
+Cotización -> DecimalField (necesitarás definir la máxima cantidad de dígitos y decimales)
