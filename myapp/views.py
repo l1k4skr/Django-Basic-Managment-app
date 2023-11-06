@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-
+from .models import User
 """
 VIEWS
 - [X]  Home
@@ -29,6 +29,8 @@ def home(request):
 
 # Login view
 def login(request):
+    print(request.POST)
+    print
     return render(request ,"html/login.html")
 
 # Reset_password view
