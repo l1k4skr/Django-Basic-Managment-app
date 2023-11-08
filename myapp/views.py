@@ -1,6 +1,11 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib import messages
 from .models import User
+from .forms import LoginForm
+from django.contrib import messages
+from django.contrib.auth import login as auth_login
+from django.contrib.auth.hashers import check_password
 """
 VIEWS
 - [X]  Home
@@ -21,6 +26,7 @@ VIEWS
 # Create your views here.
 # Index view
 def index(request):
+
     return render(request ,"html/index.html")
 
 # Home view
@@ -29,9 +35,33 @@ def home(request):
 
 # Login view
 def login(request):
-    print(request.POST)
-    print
-    return render(request ,"html/login.html")
+    if request.method == "POST":
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        try:
+            # Aquí asumimos que el campo de correo electrónico es único
+            user = User.objects.get(email=email)
+            print(check_password(password, user.password))
+            # Verificar la contraseña; asumimos que está hashada
+            print(user.password)
+            print(password)
+            print(password==user.password)
+            if password== user.password:
+                # La contraseña es correcta; ahora debes iniciar sesión al usuario manualmente
+                # Necesitas manejar la sesión tú mismo si no estás usando `authenticate()`
+                # Esto puede implicar establecer la ID del usuario en la sesión y manejar `logout` etc.
+                # auth_login(request, user)
+                return redirect('index')
+            else:
+                # Contraseña incorrecta
+                messages.error(request, 'La contraseña es incorrecta.')
+        except User.DoesNotExist:
+            # No existe un usuario con ese correo electrónico
+            messages.error(request, 'No existe un usuario con ese correo electrónico.')
+
+    # Renderiza de nuevo la página de inicio de sesión con los mensajes de error si los hay
+    return render(request, "html/login.html", {"form": LoginForm()})
 
 # Reset_password view
 def reset_password(request):
@@ -40,11 +70,11 @@ def reset_password(request):
 class Client_view:
 
     # Client view
-    def client(self, request):
+    def client(request):
         return render(request ,"html/client.html")
 
     # New client view
-    def new_client(self, request):
+    def new_client(request):
         return render(request ,"html/new_client.html")
 
 # Trazability view

@@ -1,17 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recab Medical</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Index Page</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style_index.css'%}">
     <style id="applicationStylesheet" type="text/css">
 
     </style>
 </head>
+
 <body>
-	<h2>
-        This is the index page
-    </h2>
+    <header>
+        <div class="business-card">
+            <div class="logo">
+                <img src="path_to_logo.png" alt="RECAB Medical Logo" width="100" height="50">
+                <span>RECAB</span>
+                <div class="contact-info">
+                    <div><a href="mailto:raul.recab@gmail.com">raul.recab@gmail.com</a></div>
+                    <div><a href="tel:+56976003770">+569 76003770</a></div>
+                </div>
+            </div>
+    </header>
+    <main>
+        <div class="content-1">
+            <span>En Recab Medical realizamos</span>
+        </div>
+        <div id="divisor"></div>
+
+        <div class="content-2">
+            <h3>Tipo de búsqueda</h3>
+            <span>Selecciona el tipo de búsqueda que necesita:</span>
+            <div class="search-type">
+                <a href="cliente/">
+                    <img src="cliente-icon.png" alt="Cliente">
+                    <p>CLIENTE</p>
+                </a>
+                <a href="">
+                    <img src="trazabilidad-icon.png" alt="Trazabilidad">
+                    <p>TRAZABILIDAD</p>
+                </a>
+                <a href="">
+                    <img src="maquinaria-icon.png" alt="Maquinaria">
+                    <p>MAQUINARIA</p>
+                </a>
+                <a href="">
+                    <img src="configuracion-icon.png" alt="Configuración">
+                    <p>CONFIGURACIÓN</p>
+                </a>
+                <a href="">
+                    <img src="manuales-icon.png" alt="Manuales">
+                    <p>MANUALES</p>
+                </a>
+            </div>
+            <a href="#" class="button-back">VOLVER</a>
+        </div>
+    </main>
+
 </body>
+
 </html>

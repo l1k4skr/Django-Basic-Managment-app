@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>home</title>
+    <title>Login</title>
     <!-- {% load static %} -->
     <link rel="stylesheet" href="{% static 'css/style_login.css'%}">
     <style id="applicationStylesheet" type="text/css">
@@ -59,13 +59,17 @@
         </header>
     </section>
     <main>
-        <form method="POST">
+        <form method="POST" action="{% url 'login' %}">
             {% csrf_token %}
-            <label for="email">Email<input type="email" name="Email" id="email"></label>
-            <label for="password">Password<input type="password" name="password" id="password"></label>
+            {{ form.as_p }}
+            {% if messages %}
+            {% for message in messages %}
+            <p style="color:red">{{ message }}</p>
+            {% endfor %}
+            {% endif %}
             <a href="/reset_password">¿Olvidaste tu contraseña?</a>
             <a class="clase_boton" href="/home">
-              VOLVER
+                VOLVER
             </a>
             <input type="submit" value="INICIAR SESIÓN"></input>
         </form>
