@@ -1,8 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .models import User
-from .forms import LoginForm
+from .models import User, Cliente, Maquinaria, Trazabilidad
+from .forms import LoginForm, ClienteForm
 from django.contrib import messages
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.hashers import check_password
@@ -71,11 +71,23 @@ class Client_view:
 
     # Client view
     def client(request):
-        return render(request ,"html/client.html")
+        clientes = Cliente.objects.all()
+        return render(request ,"html/client.html", {'clientes': clientes})
 
     # New client view
     def new_client(request):
-        return render(request ,"html/new_client.html")
+        if request.method == 'POST':
+            form = ClienteForm(request.POST)
+            if form.is_valid():
+                # Aquí podrías hacer alguna lógica de negocio adicional si es necesario
+                form.save()
+                return redirect('cliente')  # Redirecciona a la URL de la página principal
+        else:
+            form = ClienteForm()
+
+        # Si no es una petición POST, muestra la página con el formulario vacío
+        return render(request, 'html/new_client.html', {'form': form})
+
 
 # Trazability view
 def trazability(request):

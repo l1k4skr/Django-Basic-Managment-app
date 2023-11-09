@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,9 +11,50 @@
 
     </style>
 </head>
+
 <body>
-	<h2>
-        This is the client page
-    </h2>
+    <header>
+        <div>
+            <img src="" alt="">
+            <h2>CLIENTES</h2>
+        </div>
+    </header>
+    <main>
+        <div>
+            <input type="text" placeholder="Escribir el nombre del cliente">
+            <button>BUSCAR</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>NOMBRE</th>
+                    <th>RAZÓN SOCIAL</th>
+                    <th>RUT</th>
+                    <th>DIRECCIÓN</th>
+                    <th>EMAIL</th>
+                    <th>TELÉFONO</th>
+                    <th>ACCIONES</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cliente in clientes %}
+                <tr>
+                    <td>{{ cliente.nombre }}</td>
+                    <td>{{ cliente.razon_social }}</td>
+                    <td>{{ cliente.rut }}</td>
+                    <td>{{ cliente.direccion }}</td>
+                    <td>{{ cliente.email }}</td>
+                    <td>{{ cliente.telefono }}</td>
+                    <td>
+                        <a href="#">EDITAR</a>
+                        <a href="#">ELIMINAR</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="nuevo-cliente/">NUEVO</a>
+    </main>
 </body>
+
 </html>
