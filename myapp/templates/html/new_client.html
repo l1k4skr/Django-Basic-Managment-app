@@ -20,6 +20,12 @@
                 <label for="razon_social">Razón Social:</label>
                 <input type="text" id="razon_social" name="razon_social" required>
             </div>
+
+            <div class="form-group">
+                <lavel for="rut">Rut:</lavel>
+                <input type="text" id="rut" name="rut" required>
+            </div>
+
             <div class="form-group">
                 <label for="direccion">Dirección:</label>
                 <input type="text" id="direccion" name="direccion" required>
@@ -36,7 +42,7 @@
                 <button type="submit" class="btn">Agregar Nuevo</button>
             </div>
         </form>
-        <button type="button" onclick="location.href='{% url 'index' %}'" class="btn">Volver</button>
+        <button type="button" onclick="location.href=&quot;{% url 'index' %}&quot;" class="btn">Volver</button>
     </div>
 </body>
 </html>

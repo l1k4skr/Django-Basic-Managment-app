@@ -6,6 +6,7 @@ from .forms import LoginForm, ClienteForm
 from django.contrib import messages
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.hashers import check_password
+
 """
 VIEWS
 - [X]  Home
@@ -15,12 +16,12 @@ VIEWS
     - [X]  Cliente
         - [X]  Nuevo
     - [X]  Trazabilidad
-    - [X]  Maquinaria
-        - [X]  Nuevo
-    - [X]  Configuración
-        - [X]  Nuevo
-    - [X]  Manuales
-        - [X]  Nuevo
+    - []  Maquinaria
+        - []  Nuevo
+    - []  Configuración
+        - []  Nuevo
+    - []  Manuales
+        - []  Nuevo
 """
 
 # Create your views here.
@@ -39,7 +40,7 @@ def login(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
 
-        try:
+        try:    
             # Aquí asumimos que el campo de correo electrónico es único
             user = User.objects.get(email=email)
             print(check_password(password, user.password))
@@ -77,10 +78,17 @@ class Client_view:
     # New client view
     def new_client(request):
         if request.method == 'POST':
+
+            # Crea un formulario de cliente y rellénalo con los datos de la petición
             form = ClienteForm(request.POST)
+
+            # Verifica si el formulario es válido
+            print(f"Formulario: {form.is_valid()}")
+            
             if form.is_valid():
                 # Aquí podrías hacer alguna lógica de negocio adicional si es necesario
                 form.save()
+                
                 return redirect('cliente')  # Redirecciona a la URL de la página principal
         else:
             form = ClienteForm()
@@ -91,12 +99,14 @@ class Client_view:
 
 # Trazability view
 def trazability(request):
-    return render(request ,"html/trazability.html")
+    trazability = Trazabilidad.objects.all()
+    return render(request ,"html/trazability.html", {'trazabilities': trazability})
 
 class Machine_view:
     # Machine view
     def machine(request):
-        return render(request ,"html/machine.html")
+        maquinas = Maquinaria.objects.all()
+        return render(request ,"html/machine.html", {'maquinas': maquinas})
     # New machine view
     def new_machine(request):
         return render(request ,"html/new_machine.html")

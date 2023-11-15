@@ -3,16 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>home</title>
+    <title>Maquinaria</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style_.css'%}">
+    <link rel="stylesheet" href="{% static 'css/style_machine.css'%}">
     <style id="applicationStylesheet" type="text/css">
 
     </style>
 </head>
 <body>
-	<h2>
-        This is the machine page
-    </h2>
+	<header>
+        <div>
+            <img src="" alt="">
+            <h2>MAQUINARIA</h2>
+        </div>
+    </header>
+    <main>
+        <div>
+            <input type="text" placeholder="Escribir el nombre de la maquinaria">
+            <button>BUSCAR</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>N SERIE</th>
+                    <th>MODELO</th>
+                    <th>AÑO</th>
+                    <th>CLIENTE</th>
+                    <th>DESCRIPCION</th>
+                    <th>COTIZACION</th>
+                    <th>HISTORIAL</th>
+                    <th>ACCIONES</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for maquina in maquinas %}
+                <tr>
+                    <td>{{ maquina.n_serie }}</td>
+                    <td>{{ maquina.modelo }}</td>
+                    <td>{{ maquina.año }}</td>
+                    <td>{{ maquina.cliente }}</td>
+                    <td>{{ maquina.descripcion }}</td>
+                    <td>{{ maquina.cotizacion }}</td>
+                    <td>{{ maquina.historial }}</td>
+                    <td>
+                        <a href="#">EDITAR</a>
+                        <a href="#">ELIMINAR</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="nueva_maquinaria/">NUEVO</a>
+    </main>
 </body>
 </html>

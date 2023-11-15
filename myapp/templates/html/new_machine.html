@@ -3,16 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>home</title>
+    <title>Agregar una nueva maquinaria</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style_.css'%}">
+    <link rel="stylesheet" href="{% static 'css/style_new_machine.css'%}">
     <style id="applicationStylesheet" type="text/css">
-
     </style>
 </head>
 <body>
-	<h2>
-        This is the new_machine page
-    </h2>
+	<div class="container">
+        <h2>NUEVA ORDEN DE SERVICIO</h2>
+        <form method="post" action="{% url 'nueva_maquinaria' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required>
+            </div>
+            <div class="form-group">
+                <label for="razon_social">Razón Social:</label>
+                <input type="text" id="razon_social" name="razon_social" required>
+            </div>
+            <div class="form-group">
+                <label for="direccion">Dirección:</label>
+                <input type="text" id="direccion" name="direccion" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="telefono">Teléfono:</label>
+                <input type="tel" id="telefono" name="telefono" required>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn">Agregar Nuevo</button>
+            </div>
+        </form>
+        <button type="button" onclick="location.href=&quot;{% url 'index' %}&quot;" class="btn">Volver</button>
+    </div>
 </body>
 </html>

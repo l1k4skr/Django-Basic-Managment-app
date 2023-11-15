@@ -3,16 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>home</title>
+    <title>Trazabilidad</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style_.css'%}">
+    <link rel="stylesheet" href="{% static 'css/style_trazability.css'%}">
     <style id="applicationStylesheet" type="text/css">
 
     </style>
 </head>
 <body>
-	<h2>
-        This is the trazability page
-    </h2>
+    <header>
+        <div>
+            <img src="" alt="">
+            <h2>TRAZABILIDAD</h2>
+        </div>
+    </header>
+	<main>
+        <div>
+            <input type="text" placeholder="Escribir el nombre de la trazabilidad">
+            <button>BUSCAR</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <tr style="text-transform: uppercase;">
+                        <th>N ORDEN</th>
+                        <th>CLIENTE</th>
+                        <th>MAQUINARIA</th>
+                        <th>TIPO</th>
+                        <th>FECHA</th>
+                        <th>DESCRIPCION</th>
+                        <th>ACCIONES</th>
+                    </tr>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trazability in trazabilities %}
+                <tr>
+                    <td>{{ trazability.n_orden }}</td>
+                    <td>{{ trazability.cliente }}</td>
+                    <td>{{ trazability.maquinaria }}</td>
+                    <td>{{ trazability.tipo }}</td>
+                    <td>{{ trazability.fecha }}</td>
+                    <td>{{ trazability.descripcion }}</td>
+                    <td>
+                        <a href="#">EDITAR</a>
+                        <a href="#">ELIMINAR</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="../">VOLVER</a>
+    </main>
 </body>
 </html>
