@@ -1,6 +1,4 @@
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.contrib import messages
 from .models import User, Cliente, Maquinaria, Trazabilidad
 from .forms import LoginForm, ClienteForm
 from django.contrib import messages
@@ -73,6 +71,7 @@ class Client_view:
     # Client view
     def client(request):
         clientes = Cliente.objects.all()
+        print(clientes)
         return render(request ,"html/client.html", {'clientes': clientes})
 
     # New client view
@@ -81,15 +80,28 @@ class Client_view:
 
             # Crea un formulario de cliente y rellénalo con los datos de la petición
             form = ClienteForm(request.POST)
-
+        
             # Verifica si el formulario es válido
-            print(f"Formulario: {form.is_valid()}")
-            
+            print(f"Formulario: {(form.is_valid())}")
+
             if form.is_valid():
                 # Aquí podrías hacer alguna lógica de negocio adicional si es necesario
                 form.save()
-                
+                messages.success(request, '¡Cliente creado correctamente!')
                 return redirect('cliente')  # Redirecciona a la URL de la página principal
+            
+            else:
+                # print(f"Errores: {form.errors}")
+                # errores_formato = list(form.errors.as_data()[list(form.errors.as_data().keys())[0]][0])[0]
+                # print(f"Errores: {errores_formato}")
+
+                for error in form.errors.as_data():
+                    print(error)
+                    print(list(form.errors.as_data()[error][0])[0])
+                    messages.error(request, list(form.errors.as_data()[error][0])[0])
+
+                # return render(request, 'html/new_client.html', {'form': form, 'error_message': errores_formato})
+
         else:
             form = ClienteForm()
 

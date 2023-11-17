@@ -24,6 +24,14 @@
             <input type="text" placeholder="Escribir el nombre del cliente">
             <button>BUSCAR</button>
         </div>
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert {{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        
         <table>
             <thead>
                 <tr>
