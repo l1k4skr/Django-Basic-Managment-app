@@ -21,17 +21,16 @@ class Cliente(Model):
 
 class Maquinaria(Model):
     """Modelo que representa una máquina médica de un cliente."""
-    ORDEN = CharField(max_length=100)
-    CLIENTE = CharField(max_length=100)
-    MAQUINARIA =  CharField(max_length=100)  #ForeignKey(Cliente, on_delete=CASCADE)
-    MARCA = CharField(max_length=100)
-    # Cliente > ForeignKey(Cliente, related_name='maquinarias', on_delete=CASCADE) 1 a 1 >
-    AÑO = PositiveIntegerField()
-    FECHA = DateField()
-    PROBLEMA = TextField(blank=True)
+    orden = CharField(max_length=100)
+    cliente = CharField(max_length=100)
+    maquinaria =  CharField(max_length=100)  #ForeignKey(Cliente, on_delete=CASCADE)
+    marca = CharField(max_length=100)  # Cliente > ForeignKey(Cliente, related_name='maquinarias', on_delete=CASCADE) 1 a 1 >
+    año = PositiveIntegerField()
+    fecha = DateField()
+    problema = TextField(blank=True)
     
     def __str__(self):
-        return self.modelom
+        return self.MARCA
 
 class Trazabilidad(Model):
     """Modelo que representa la trazabilidad de una máquina médica."""
@@ -51,7 +50,7 @@ class Trazabilidad(Model):
 
 class Manual(Model):
     """Modelo que representa un manual de una máquina médica."""
-    NOMBRE_MANUAL = CharField(max_length=100)
-    TIPO_MANUAL = CharField(max_length=100)
-    AÑO_MANUAL = PositiveIntegerField()
-    PDF_MANUAL = FileField(upload_to='pdfs/')
+    nombre_manual = CharField(max_length=100)
+    tipo_manual = CharField(max_length=100)
+    año_manual = PositiveIntegerField()
+    pdf_manual = FileField(upload_to='pdfs/')

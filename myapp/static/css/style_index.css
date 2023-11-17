@@ -3,6 +3,11 @@
     padding: 0;
     box-sizing: border-box;
 }
+img {
+    max-width: 100%;
+    height: auto;
+
+}
 
 /* Estilos para el cuerpo del documento */
 body {

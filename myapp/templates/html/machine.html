@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,8 +11,9 @@
 
     </style>
 </head>
+
 <body>
-	<header>
+    <header>
         <div>
             <img src="" alt="">
             <h2>MAQUINARIA</h2>
@@ -22,29 +24,36 @@
             <input type="text" placeholder="Escribir el nombre de la maquinaria">
             <button>BUSCAR</button>
         </div>
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert { message.tags }">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
         <table>
             <thead>
                 <tr>
-                    <th>N SERIE</th>
-                    <th>MODELO</th>
-                    <th>AÑO</th>
+                    <th>ORDEN</th>
                     <th>CLIENTE</th>
-                    <th>DESCRIPCION</th>
-                    <th>COTIZACION</th>
-                    <th>HISTORIAL</th>
+                    <th>MAQUINARIA</th>
+                    <th>MARCA</th>
+                    <th>AÑO</th>
+                    <th>FECHA</th>
+                    <th>PROBLEMA</th>
                     <th>ACCIONES</th>
                 </tr>
             </thead>
             <tbody>
                 {% for maquina in maquinas %}
                 <tr>
-                    <td>{{ maquina.n_serie }}</td>
-                    <td>{{ maquina.modelo }}</td>
-                    <td>{{ maquina.año }}</td>
+                    <td>{{ maquina.orden }}</td>
                     <td>{{ maquina.cliente }}</td>
-                    <td>{{ maquina.descripcion }}</td>
-                    <td>{{ maquina.cotizacion }}</td>
-                    <td>{{ maquina.historial }}</td>
+                    <td>{{ maquina.maquinaria }}</td>
+                    <td>{{ maquina.marca }}</td>
+                    <td>{{ maquina.año }}</td>
+                    <td>{{ maquina.fecha }}</td>
+                    <td>{{ maquina.problema }}</td>
                     <td>
                         <a href="#">EDITAR</a>
                         <a href="#">ELIMINAR</a>
@@ -53,7 +62,9 @@
                 {% endfor %}
             </tbody>
         </table>
-        <a href="nueva_maquinaria/">NUEVO</a>
+        <a href="{% url 'index'%}">Volver</a>
+        <a href="{% url 'nueva_maquinaria'%}">NUEVO</a>
     </main>
 </body>
+
 </html>

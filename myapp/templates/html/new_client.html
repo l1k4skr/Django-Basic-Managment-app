@@ -12,6 +12,13 @@
         <h2>Clientes</h2>
         <form method="post" action="{% url 'new_client' %}">
             {% csrf_token %}
+            {% if messages %}
+            {% for message in messages %}
+                    <div class="alert { message.tags }">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
             <div class="form-group">
                 <label for="nombre">Nombre:</label>
                 <input type="text" id="nombre" name="nombre" required>
