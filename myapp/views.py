@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import User, Cliente, Maquinaria, Trazabilidad
-from .forms import LoginForm, ClienteForm
+from .forms import LoginForm, ClienteForm, MaquinariaForm
 from django.contrib import messages
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.hashers import check_password
@@ -64,6 +64,18 @@ def login(request):
 
 # Reset_password view
 def reset_password(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        print(email)
+        try:
+            user = User.objects.get(email=email)
+            print(user)
+            # Enviar correo electrónico al usuario con la contraseña
+            # Aquí debes implementar tu propia lógica para enviar el correo electrónico
+            messages.success(request, 'Se ha enviado un correo electrónico con la contraseña.')
+        except User.DoesNotExist:
+            # No existe un usuario con ese correo electrónico
+            messages.error(request, 'No existe un usuario con ese correo electrónico.')
     return render(request ,"html/reset_password.html")
 
 class Client_view:
@@ -121,13 +133,24 @@ class Machine_view:
         return render(request ,"html/machine.html", {'maquinas': maquinas})
     # New machine view
     def new_machine(request):
+        if request.method == 'POST':
+            maquinariaform = MaquinariaForm(request.POST)
+            print(f"Formulario: {request.POST}")
+            # print(f"Formulario: {(maquinariaform.errors)}")
+            # print(f"Formulario valido: {(maquinariaform.is_valid())}")
+            if maquinariaform.is_valid():
+                maquinariaform.save()
+                messages.success(request, '¡Maquinaria creada correctamente!')
+                return redirect('maquinaria')
         return render(request ,"html/new_machine.html")
 
 class Manual_view:
     # Manual view
     def manual(request):
         return render(request ,"html/manual.html")
+    
     def new_manual(request):
+        # if request.method == 'POST':
         return render(request ,"html/new_manual.html")
 
 

@@ -14,5 +14,5 @@ class ClienteForm(forms.ModelForm):
 class MaquinariaForm(forms.ModelForm):
     class Meta:
         model = Maquinaria
-        fields = ['ORDEN', 'CLIENTE', 'MAQUINARIA', 'MARCA', 'AÑO', 'FECHA', 'PROBLEMA']
+        fields = ['orden', 'cliente', 'maquinaria', 'marca', 'año', 'fecha', 'problema']
         # Puedes añadir widgets personalizados si es necesario

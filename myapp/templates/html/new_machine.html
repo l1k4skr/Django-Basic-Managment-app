@@ -14,31 +14,41 @@
         <h2>NUEVA ORDEN DE SERVICIO</h2>
         <form method="post" action="{% url 'nueva_maquinaria' %}">
             {% csrf_token %}
-            <div class="form-group">
-                <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" required>
-            </div>
-            <div class="form-group">
-                <label for="razon_social">Razón Social:</label>
-                <input type="text" id="razon_social" name="razon_social" required>
-            </div>
-            <div class="form-group">
-                <label for="direccion">Dirección:</label>
-                <input type="text" id="direccion" name="direccion" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="telefono">Teléfono:</label>
-                <input type="tel" id="telefono" name="telefono" required>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn">Agregar Nuevo</button>
-            </div>
-        </form>
-        <button type="button" onclick="location.href=&quot;{% url 'index' %}&quot;" class="btn">Volver</button>
+            
+                <div class="form-group">
+                    <div class="form-group">
+                        <label for="orden">Orden:</label>
+                        <input type="text" id="orden" name="orden" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cliente">Cliente:</label>
+                        <input type="text" id="cliente" name="cliente" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="maquinaria">Maquinaria:</label>
+                        <input type="text" id="maquinaria" name="maquinaria" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="marca">Marca:</label>
+                        <input type="text" id="marca" name="marca" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="año">Año:</label>
+                        <input type="number" id="año" name="año" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha">Fecha:</label>
+                        <input type="date" id="fecha" name="fecha" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="problema">Problema:</label>
+                        <textarea id="problema" name="problema" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn">Agregar Nuevo</button>
+                    </div>
+                    </form>
+        <a href="{% url 'maquinaria' %}">Volver</a>
     </div>
 </body>
 </html>
