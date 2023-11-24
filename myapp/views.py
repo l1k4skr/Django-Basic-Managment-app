@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import User, Cliente, Maquinaria, Trazabilidad
-from .forms import LoginForm, ClienteForm, MaquinariaForm
+from .forms import LoginForm, ClienteForm, MaquinariaForm, NuevoUsuarioForm
 from django.contrib import messages
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.hashers import check_password
@@ -143,6 +143,22 @@ class Machine_view:
                 messages.success(request, '¡Maquinaria creada correctamente!')
                 return redirect('maquinaria')
         return render(request ,"html/new_machine.html")
+
+class Config_view:
+    def config(request):
+        users = User.objects.all()
+        print(users)
+        return render(request ,"html/config.html", {'users': users})
+    
+    def new_user(request):
+        if request.method == 'POST':
+            form = NuevoUsuarioForm(request.POST)
+            if form.is_valid():
+                # Aquí podrías hacer alguna lógica de negocio adicional si es necesario
+                form.save()
+                messages.success(request, '¡Usuario creado correctamente!')
+                return redirect('configuracion')
+        return render(request ,"html/new_user.html")    
 
 class Manual_view:
     # Manual view

@@ -1,11 +1,17 @@
 from django.db.models import *
 
 class User(Model):
-    name = CharField(max_length=100)
+    username = CharField(max_length=100)
+    siglas = CharField(max_length=2)
+    rut = CharField(max_length=20)
+    direccion = CharField(max_length=100)
     email = CharField(max_length=100)
+    telefono = CharField(max_length=15)
+    cargo = CharField(max_length=100)
     password = CharField(max_length=20)
+
     def __str__(self):
-        return self.name
+        return self.username
 
 class Cliente(Model):
     """Modelo que representa a un cliente que posee maquinaria médica."""

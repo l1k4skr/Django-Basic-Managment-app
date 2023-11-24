@@ -34,23 +34,23 @@
             <h3>Tipo de búsqueda</h3>
             <span>Selecciona el tipo de búsqueda que necesita:</span>
             <div class="search-type">
-                <a href="cliente/">
+                <a href="{% url 'cliente' %}">
                     <img src="cliente-icon.png" alt="Cliente">
                     <p>CLIENTE</p>
                 </a>
-                <a href="trazabilidad/">
+                <a href="{% url 'trazability' %}">
                     <img src="trazabilidad-icon.png" alt="Trazabilidad">
                     <p>TRAZABILIDAD</p>
                 </a>
-                <a href="maquinaria/">
+                <a href="{% url 'maquinaria' %}">
                     <img src="maquinaria-icon.png" alt="Maquinaria">
                     <p>MAQUINARIA</p>
                 </a>
-                <a href="">
+                <a href="{% url 'configuracion' %}">
                     <img src="configuracion-icon.png" alt="Configuración">
                     <p>CONFIGURACIÓN</p>
                 </a>
-                <a href="">
+                <a href="{% url 'manuales' %}">
                     <img src="manuales-icon.png" alt="Manuales">
                     <p>MANUALES</p>
                 </a>

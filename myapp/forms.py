@@ -1,5 +1,5 @@
 from django import forms
-from .models import Cliente, Maquinaria
+from .models import Cliente, Maquinaria, User
 
 class LoginForm(forms.Form):
     email = forms.CharField(label='Email', max_length=100)
@@ -16,3 +16,8 @@ class MaquinariaForm(forms.ModelForm):
         model = Maquinaria
         fields = ['orden', 'cliente', 'maquinaria', 'marca', 'año', 'fecha', 'problema']
         # Puedes añadir widgets personalizados si es necesario
+
+class NuevoUsuarioForm:
+    class Meta:
+        model = User
+        fields = ['username', 'siglas', 'rut', 'direccion', 'email', 'telefono', 'cargo', 'password', "re_password"]

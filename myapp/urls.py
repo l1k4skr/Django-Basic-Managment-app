@@ -11,6 +11,8 @@ urlpatterns = [
     path('index/trazabilidad/', views.trazability, name="trazability"),
     path('index/maquinaria/', views.Machine_view.machine, name="maquinaria"),
     path('index/maquinaria/nueva_maquinaria/', views.Machine_view.new_machine, name="nueva_maquinaria"),
-    path('index/manuales/', views.Manual_view.manual, name="Manuales"),
+    path('index/configuracion/', views.Config_view.config, name="configuracion"),
+    path('index/configuracion/nuevo_usuario', views.Config_view.new_user, name="nuevo_usuario"),
+    path('index/manuales/', views.Manual_view.manual, name="manuales"),
     path('index/manuales/nuevo_manual/', views.Manual_view.new_manual, name="nuevo_manual"),
     ]

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style_trazability.css'%}">
+    <style id="applicationStylesheet" type="text/css">
+
+    </style>
+</head>
+<body>
+    <header>
+        <div>
+            <img src="" alt="">
+            <h2>Configuración</h2>
+        </div>
+    </header>
+	<main>
+        <div>
+            <input type="text" placeholder="Escribir el nombre del usuario">
+            <button>BUSCAR</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <tr style="text-transform: uppercase;">
+                        <th>USERNAME</th>
+                        <th>SIGLAS</th>
+                        <th>RUT</th>
+                        <th>DIRECCION</th>
+                        <th>EMAIL</th>
+                        <th>TELEFONO</th>
+                        <th>CARGO</th>
+                    </tr>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.siglas }}</td>
+                    <td>{{ user.rut }}</td>
+                    <td>{{ user.direccion }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.telefono }}</td>
+                    <td>{{ user.cargo }}</td>
+                    <td>
+                        <a href="#">EDITAR</a>
+                        <a href="#">ELIMINAR</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{% url 'index' %}">VOLVER</a>
+        <a href="{% url 'nuevo_usuario' %}">NUEVO</a>
+    </main>
+</body>
+</html>
