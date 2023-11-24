@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import User, Cliente, Maquinaria, Trazabilidad
-from .forms import LoginForm, ClienteForm, MaquinariaForm, NuevoUsuarioForm
+from .forms import LoginForm, ClienteForm, MaquinariaForm, UserForm
 from django.contrib import messages
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.hashers import check_password
@@ -14,10 +14,10 @@ VIEWS
     - [X]  Cliente
         - [X]  Nuevo
     - [X]  Trazabilidad
-    - []  Maquinaria
-        - []  Nuevo
-    - []  Configuración
-        - []  Nuevo
+    - [X]  Maquinaria
+        - [X]  Nuevo
+    - [X]  Configuración
+        - [X]  Nuevo
     - []  Manuales
         - []  Nuevo
 """
@@ -25,7 +25,6 @@ VIEWS
 # Create your views here.
 # Index view
 def index(request):
-
     return render(request ,"html/index.html")
 
 # Home view
@@ -41,11 +40,11 @@ def login(request):
         try:    
             # Aquí asumimos que el campo de correo electrónico es único
             user = User.objects.get(email=email)
-            print(check_password(password, user.password))
-            # Verificar la contraseña; asumimos que está hashada
-            print(user.password)
-            print(password)
-            print(password==user.password)
+            # print(check_password(password, user.password))
+            # # Verificar la contraseña; asumimos que está hashada
+            # print(user.password)
+            # print(password)
+            # print(password==user.password)
             if password== user.password:
                 # La contraseña es correcta; ahora debes iniciar sesión al usuario manualmente
                 # Necesitas manejar la sesión tú mismo si no estás usando `authenticate()`
@@ -66,7 +65,7 @@ def login(request):
 def reset_password(request):
     if request.method == 'POST':
         email = request.POST.get('email')
-        print(email)
+        # print(email)
         try:
             user = User.objects.get(email=email)
             print(user)
@@ -135,7 +134,7 @@ class Machine_view:
     def new_machine(request):
         if request.method == 'POST':
             maquinariaform = MaquinariaForm(request.POST)
-            print(f"Formulario: {request.POST}")
+            # print(f"Formulario: {request.POST}")
             # print(f"Formulario: {(maquinariaform.errors)}")
             # print(f"Formulario valido: {(maquinariaform.is_valid())}")
             if maquinariaform.is_valid():
@@ -145,21 +144,42 @@ class Machine_view:
         return render(request ,"html/new_machine.html")
 
 class Config_view:
+    # Config view
     def config(request):
         users = User.objects.all()
-        print(users)
-        return render(request ,"html/config.html", {'users': users})
+        return render(request ,"html/config.html", {'usuarios': users})
     
+    # New config view
     def new_user(request):
         if request.method == 'POST':
-            form = NuevoUsuarioForm(request.POST)
-            if form.is_valid():
+            # Crea un formulario de cliente y rellénalo con los datos de la petición
+            form = UserForm(request.POST)
+            
+            # Verifica si el formulario es válido
+            print(f"Formulario: {(form.is_valid())}")
+            re_password = dict(request.POST)['re_password'][0]
+            print(f"re_password: {re_password}")
+            clean_data = form.cleaned_data
+            print(f"cleandata:{clean_data}")
+            if form.is_valid() and clean_data['password'] == re_password:
                 # Aquí podrías hacer alguna lógica de negocio adicional si es necesario
                 form.save()
                 messages.success(request, '¡Usuario creado correctamente!')
                 return redirect('configuracion')
-        return render(request ,"html/new_user.html")    
+            elif clean_data['password'] != re_password:
+                messages.error(request, 'Las contraseñas no coinciden.')
+            else:
+                # print(f"Errores: {form.errors}")
+                # errores_formato = list(form.errors.as_data()[list(form.errors.as_data().keys())[0]][0])[0]
+                # print(f"Errores: {errores_formato}")
 
+                for error in form.errors.as_data():
+                    # print(error)
+                    # print(list(form.errors.as_data()[error][0])[0])
+                    messages.error(request, list(form.errors.as_data()[error][0])[0])
+
+                # return render(request, 'html/new_client.html', {'form': form, 'error_message': errores_formato})
+        return render(request ,"html/new_user.html")
 class Manual_view:
     # Manual view
     def manual(request):
