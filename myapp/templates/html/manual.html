@@ -1,18 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>home</title>
+    <title>Manuales</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style_.css'%}">
+    <link rel="stylesheet" href="{% static 'css/style_config.css'%}">
     <style id="applicationStylesheet" type="text/css">
-
+        /* Puedes añadir estilos adicionales aquí */
     </style>
 </head>
+
 <body>
-	<h2>
-        This is the manual page
-    </h2>
+    <header>
+        <div>
+            <!-- Incluye tu logo o imagen aquí si es necesario -->
+            <h2>Lista de Manuales</h2>
+        </div>
+    </header>
+    <main>
+        <div>
+            <input type="text" placeholder="Escribir el nombre del manual">
+            <button>BUSCAR</button>
+        </div>
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert {{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre del Manual</th>
+                    <th>Tipo</th>
+                    <th>Año</th>
+                    <th>Archivo PDF</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for manual in manuales %}
+                <tr>
+                    <td>{{ manual.nombre_manual }}</td>
+                    <td>{{ manual.tipo_manual }}</td>
+                    <td>{{ manual.año_manual }}</td>
+                    <td>
+                        <a href="{{ manual.pdf_manual.url }}">Descargar PDF</a>
+                    </td>
+                    <td>
+                        <a href="#">EDITAR</a>
+                        <!-- {% url 'editar_manual' manual.id %} -->
+                        <a href="#">ELIMINAR</a>
+                        <!-- {% url 'eliminar_manual' manual.id %} -->
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{% url 'index'%}">Volver</a>
+        <a href="{% url 'nuevo_manual'%}">NUEVO MANUAL</a>
+    </main>
 </body>
+
 </html>

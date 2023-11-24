@@ -2,7 +2,7 @@ from django.db.models import *
 
 class User(Model):
     username = CharField(max_length=100)
-    siglas  = CharField(max_length=2) # -> AA -> BB -> CC
+    siglas  = CharField(max_length=2) # -> AA -> BB -> CC -> siglas de tecnicos
     rut = CharField(max_length=20)
     direccion = CharField(max_length=100) 
     email = CharField(max_length=100)
@@ -27,6 +27,7 @@ class Cliente(Model):
 class Maquinaria(Model):
     """Modelo que representa una máquina médica de un cliente."""
     orden = CharField(max_length=100)
+    numero_serie = CharField(max_length=100) # agregar numero de serie > CharField(max_length=100)
     cliente = CharField(max_length=100)
     maquinaria =  CharField(max_length=100)  #ForeignKey(Cliente, on_delete=CASCADE)
     marca = CharField(max_length=100)  # Cliente > ForeignKey(Cliente, related_name='maquinarias', on_delete=CASCADE) 1 a 1 >

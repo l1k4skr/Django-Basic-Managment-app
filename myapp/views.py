@@ -16,8 +16,8 @@ VIEWS
     - [X]  Trazabilidad
     - [X]  Maquinaria
         - [X]  Nuevo
-    - []  Configuración
-        - []  Nuevo
+    - [X]  Configuración
+        - [X]  Nuevo
     - []  Manuales
         - []  Nuevo
 """
@@ -25,7 +25,6 @@ VIEWS
 # Create your views here.
 # Index view
 def index(request):
-
     return render(request ,"html/index.html")
 
 # Home view
@@ -41,11 +40,11 @@ def login(request):
         try:    
             # Aquí asumimos que el campo de correo electrónico es único
             user = User.objects.get(email=email)
-            print(check_password(password, user.password))
-            # Verificar la contraseña; asumimos que está hashada
-            print(user.password)
-            print(password)
-            print(password==user.password)
+            # print(check_password(password, user.password))
+            # # Verificar la contraseña; asumimos que está hashada
+            # print(user.password)
+            # print(password)
+            # print(password==user.password)
             if password== user.password:
                 # La contraseña es correcta; ahora debes iniciar sesión al usuario manualmente
                 # Necesitas manejar la sesión tú mismo si no estás usando `authenticate()`
@@ -66,7 +65,7 @@ def login(request):
 def reset_password(request):
     if request.method == 'POST':
         email = request.POST.get('email')
-        print(email)
+        # print(email)
         try:
             user = User.objects.get(email=email)
             print(user)
@@ -135,7 +134,7 @@ class Machine_view:
     def new_machine(request):
         if request.method == 'POST':
             maquinariaform = MaquinariaForm(request.POST)
-            print(f"Formulario: {request.POST}")
+            # print(f"Formulario: {request.POST}")
             # print(f"Formulario: {(maquinariaform.errors)}")
             # print(f"Formulario valido: {(maquinariaform.is_valid())}")
             if maquinariaform.is_valid():
@@ -175,8 +174,8 @@ class Config_view:
                 # print(f"Errores: {errores_formato}")
 
                 for error in form.errors.as_data():
-                    print(error)
-                    print(list(form.errors.as_data()[error][0])[0])
+                    # print(error)
+                    # print(list(form.errors.as_data()[error][0])[0])
                     messages.error(request, list(form.errors.as_data()[error][0])[0])
 
                 # return render(request, 'html/new_client.html', {'form': form, 'error_message': errores_formato})
