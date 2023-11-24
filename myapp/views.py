@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import User, Cliente, Maquinaria, Trazabilidad
-from .forms import LoginForm, ClienteForm, MaquinariaForm
+from .forms import LoginForm, ClienteForm, MaquinariaForm, UserForm
 from django.contrib import messages
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.hashers import check_password
@@ -14,8 +14,8 @@ VIEWS
     - [X]  Cliente
         - [X]  Nuevo
     - [X]  Trazabilidad
-    - []  Maquinaria
-        - []  Nuevo
+    - [X]  Maquinaria
+        - [X]  Nuevo
     - []  Configuración
         - []  Nuevo
     - []  Manuales
@@ -144,6 +144,43 @@ class Machine_view:
                 return redirect('maquinaria')
         return render(request ,"html/new_machine.html")
 
+class Config_view:
+    # Config view
+    def config(request):
+        users = User.objects.all()
+        return render(request ,"html/config.html", {'usuarios': users})
+    
+    # New config view
+    def new_user(request):
+        if request.method == 'POST':
+            # Crea un formulario de cliente y rellénalo con los datos de la petición
+            form = UserForm(request.POST)
+            
+            # Verifica si el formulario es válido
+            print(f"Formulario: {(form.is_valid())}")
+            re_password = dict(request.POST)['re_password'][0]
+            print(f"re_password: {re_password}")
+            clean_data = form.cleaned_data
+            print(f"cleandata:{clean_data}")
+            if form.is_valid() and clean_data['password'] == re_password:
+                # Aquí podrías hacer alguna lógica de negocio adicional si es necesario
+                form.save()
+                messages.success(request, '¡Usuario creado correctamente!')
+                return redirect('configuracion')
+            elif clean_data['password'] != re_password:
+                messages.error(request, 'Las contraseñas no coinciden.')
+            else:
+                # print(f"Errores: {form.errors}")
+                # errores_formato = list(form.errors.as_data()[list(form.errors.as_data().keys())[0]][0])[0]
+                # print(f"Errores: {errores_formato}")
+
+                for error in form.errors.as_data():
+                    print(error)
+                    print(list(form.errors.as_data()[error][0])[0])
+                    messages.error(request, list(form.errors.as_data()[error][0])[0])
+
+                # return render(request, 'html/new_client.html', {'form': form, 'error_message': errores_formato})
+        return render(request ,"html/new_user.html")
 class Manual_view:
     # Manual view
     def manual(request):

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style_config.css'%}">
+    <style id="applicationStylesheet" type="text/css">
+        /* Puedes añadir estilos adicionales aquí */
+    </style>
+</head>
+
+<body>
+    <header>
+        <div>
+            <!-- Incluye tu logo o imagen aquí si es necesario -->
+            <h2>Lista de Usuarios</h2>
+        </div>
+    </header>
+    <main>
+        <div>
+            <input type="text" placeholder="Escribir el nombre del usuario">
+            <button>BUSCAR</button>
+        </div>
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert {{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Siglas</th>
+                    <th>RUT</th>
+                    <th>Dirección</th>
+                    <th>Email</th>
+                    <th>Teléfono</th>
+                    <th>Cargo</th>
+                    <!-- La contraseña generalmente no se muestra en listados -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in usuarios %}
+                <tr>
+                    <td>{{ usuario.username }}</td>
+                    <td>{{ usuario.siglas }}</td>
+                    <td>{{ usuario.rut }}</td>
+                    <td>{{ usuario.direccion }}</td>
+                    <td>{{ usuario.email }}</td>
+                    <td>{{ usuario.telefono }}</td>
+                    <td>{{ usuario.cargo }}</td>
+                    <td>
+                        <a href="#">EDITAR</a>
+                        <!--  url 'editar_usuario' usuario.id  -->
+                        <a href="#">ELIMINAR</a>
+                        <!--  url 'eliminar_usuario' usuario.id  -->
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{% url 'index'%}">Volver</a>
+        <a href="{% url 'new_user'%}">NUEVO</a>
+    </main>
+</body>
+
+</html>

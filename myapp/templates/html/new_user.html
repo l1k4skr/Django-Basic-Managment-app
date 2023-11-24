@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Configuration</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style_config.css'%}">
+    <style id="applicationStylesheet" type="text/css">
+    </style>
+</head>
+<body>
+	<div class="container">
+        <h2>User Configuration</h2>
+        <form method="post" action="{% url 'new_user' %}">
+            {% csrf_token %}
+            {% if messages %}
+            {% for message in messages %}
+                    <div class="alert { message.tags }">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="siglas">Siglas:</label>
+                <input type="text" id="siglas" name="siglas" required>
+            </div>
+            <div class="form-group">
+                <label for="rut">RUT:</label>
+                <input type="text" id="rut" name="rut" required>
+            </div>
+            <div class="form-group">
+                <label for="direccion">Direccion:</label>
+                <input type="text" id="direccion" name="direccion" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="telefono">Telefono:</label>
+                <input type="tel" id="telefono" name="telefono" required>
+            </div>
+            <div class="form-group">
+                <label for="cargo">Cargo:</label>
+                <input type="text" id="cargo" name="cargo" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="re_re_password">Cofirm password:</label>
+                <input type="password" id="re_password" name="re_password" required>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn">Save</button>
+            </div>
+        </form>
+        <a href="{% url 'configuracion'%}">Volver</a>
+    </div>
+</body>
+</html>
