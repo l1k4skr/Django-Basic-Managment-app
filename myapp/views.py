@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .models import User, Cliente, Maquinaria, Trazabilidad
-from .forms import LoginForm, ClienteForm, MaquinariaForm, UserForm
+from .models import User, Cliente, Maquinaria, Trazabilidad, Manual
+from .forms import LoginForm, ClienteForm, MaquinariaForm, UserForm, ManualesForm
 from django.contrib import messages
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.hashers import check_password
@@ -147,6 +147,7 @@ class Config_view:
     # Config view
     def config(request):
         users = User.objects.all()
+        print
         return render(request ,"html/config.html", {'usuarios': users})
     
     # New config view
@@ -181,17 +182,30 @@ class Config_view:
                 # return render(request, 'html/new_client.html', {'form': form, 'error_message': errores_formato})
         return render(request ,"html/new_user.html")
 class Manual_view:
+
     # Manual view
     def manual(request):
-        return render(request ,"html/manual.html")
+        manuales = Manual.objects.all()
+        return render(request ,"html/manual.html", {'manuales': manuales})
     
     def new_manual(request):
-        # if request.method == 'POST':
+        if request.method == 'POST':
+            # Crea un formulario de cliente y rellénalo con los datos de la petición
+            form = ManualesForm(request.POST)
+            
+            # Verifica si el formulario es válido
+            print(f"Formulario: {(form.is_valid())}")
+            clean_data = form.cleaned_data
+            print(f"cleandata:{clean_data}")
+
+            if form.is_valid():
+                # Aquí podrías hacer alguna lógica de negocio adicional si es necesario
+                form.save()
+                messages.success(request, '¡Manual creado correctamente!')
+                return redirect('manuales')
+
+            else:
+                for error in form.errors.as_data():
+                    messages.error(request, list(form.errors.as_data()[error][0])[0])
+
         return render(request ,"html/new_manual.html")
-
-
-
-# Create an about view
-def about(request):
-    return render(request ,"html/about.html")
-
