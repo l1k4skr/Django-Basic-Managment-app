@@ -49,11 +49,11 @@
                     <td>{{ manual.tipo_manual }}</td>
                     <td>{{ manual.año_manual }}</td>
                     <td>
-                        <a href="{{ manual.pdf_manual.url }}">Descargar PDF</a>
+                        <a href="{% url 'descargar_manual' id=manual.id %}">Descargar PDF</a>
                     </td>
                     <td>
-                        <a href="#">EDITAR</a>
-                        <a href="#">ELIMINAR</a>
+                        <a href="{% url 'editar_manual' id=manual.id %}">EDITAR</a>
+                        <a href="{% url 'eliminar_manual' id=manual.id %}">ELIMINAR</a>
                     </td>
                 </tr>
                 {% endfor %}

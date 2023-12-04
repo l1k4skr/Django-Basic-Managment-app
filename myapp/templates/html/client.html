@@ -54,8 +54,8 @@
                     <td>{{ cliente.email }}</td>
                     <td>{{ cliente.telefono }}</td>
                     <td>
-                        <a href="#">EDITAR</a>
-                        <a href="#">ELIMINAR</a>
+                        <a href="{% url 'editar_cliente' id=cliente.id %}">EDITAR</a>
+                        <a href="{% url 'eliminar_cliente' id=cliente.id %}">ELIMINAR</a>
                     </td>
                 </tr>
                 {% endfor %}

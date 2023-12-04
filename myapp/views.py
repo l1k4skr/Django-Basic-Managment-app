@@ -1,10 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import User, Cliente, Maquinaria, Trazabilidad, Manual
 from .forms import LoginForm, ClienteForm, MaquinariaForm, UserForm, ManualesForm
 from django.contrib import messages
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.hashers import check_password
-
+from django.http import FileResponse
+import os
+from django.conf import settings
+from django.http import HttpResponseNotFound
 """
 VIEWS
 - [X]  Home
@@ -145,12 +148,50 @@ class Client_view:
 
         # Si no es una petición POST, muestra la página con el formulario vacío
         return render(request, 'html/new_client.html', {'form': form})
+    
+    # Edit client view
+    def edit_cliente(request, id):
+        cliente = get_object_or_404(Cliente, pk=id)
+        if request.method == "POST":
+            form = ClienteForm(request.POST, instance=cliente)
+            if form.is_valid():
+                form.save()
+                return redirect('cliente')  # Redirigir a la lista de clientes después de guardar
+            
+        else:
+            form = ClienteForm(instance=cliente)
+        return render(request, 'html/edit_cliente.html', {'form': form, 'cliente': cliente})
+    
+    # Delete client view
+    def delete_cliente(request, id):
+        cliente = get_object_or_404(Cliente, id=id)
+        if request.method == 'POST':
+            cliente.delete()
+            messages.success(request, 'Cliente eliminado con éxito.')
+            return redirect('cliente')
+        return render(request, 'html/confirm_cliente_delete.html', {'cliente': cliente})
+    
 
 
 # Trazability view
 def trazability(request):
     trazability = Trazabilidad.objects.all()
     return render(request ,"html/trazability.html", {'trazabilities': trazability})
+
+# NECESITO CONECTAR MAQUINARIA CON CLIENTE CADA VEZ QUE SE AGREGE UNA MAQUINA NUEVA
+""" 
+def edit_trazability(request, id):
+    trazability = get_object_or_404(Trazabilidad, pk=id)
+    if request.method == "POST":
+        form = TrazabilityForm(request.POST, instance=trazability)
+        if form.is_valid():
+            form.save()
+            return redirect('trazability')  # Redirigir a la lista de clientes después de guardar
+        
+    else:
+        form = TrazabilityForm(instance=trazability)
+    return render(request, 'html/edit_trazability.html', {'form': form, 'trazability': trazability})
+"""
 
 class Machine_view:
     # Machine view
@@ -241,5 +282,38 @@ class Manual_view:
         return render(request ,"html/new_manual.html", {'form': ManualesForm()})
     
     def download_manual(request, id):
-        manual = Manual.objects.get(id=id)
-        return render(request ,"html/download_manual.html", {'manual': manual})
+        manual = get_object_or_404(Manual, id=id)
+        pdf_file = manual.pdf_manual.path  # Asegúrate de que 'pdf_manual' es el nombre de tu campo FileField
+
+        if os.path.exists(pdf_file):
+            # No uses 'with' aquí para evitar cerrar el archivo
+            try:
+                fh = open(pdf_file, 'rb')
+                response = FileResponse(fh, content_type='application/pdf')
+                response['Content-Disposition'] = f'inline; filename="{os.path.basename(pdf_file)}"'
+                return response
+            except IOError:
+                # Manejar el error si el archivo no puede ser abierto
+                return HttpResponseNotFound('<h1>Error al abrir el archivo</h1>')
+        else:
+            # Manejar el caso donde el archivo no existe
+            return HttpResponseNotFound('<h1>Archivo no encontrado</h1>')
+    
+    def edit_manual(request, id):
+        manual = get_object_or_404(Manual, pk=id)
+        if request.method == "POST":
+            form = ManualesForm(request.POST, request.FILES, instance=manual)
+            if form.is_valid():
+                form.save()
+                return redirect('manuales')  # Redirigir a la lista de manuales después de guardar
+        else:
+            form = ManualesForm(instance=manual)
+        return render(request, 'html/edit_manual.html', {'form': form, 'manual': manual})
+    
+    def delete_manual(request, id):
+        manual = get_object_or_404(Manual, id=id)
+        if request.method == 'POST':  # Asegúrate de que la solicitud sea POST para evitar la eliminación accidental
+            manual.delete()
+            messages.success(request, 'Manual eliminado con éxito.')
+            return redirect('manuales')  # Redirigir a la lista de manuales después de eliminar
+        return render(request, 'html/confirm_manual_delete.html', {'manual': manual})
