@@ -63,18 +63,45 @@ def login(request):
 
 # Reset_password view
 def reset_password(request):
+    print(request.method)
     if request.method == 'POST':
+        
         email = request.POST.get('email')
+        actual_password = request.POST.get('password')
+        new_password = request.POST.get('new-password')
+        re_new_password = request.POST.get('re-new-password')
+
+        # print(f"request: {request.POST}")
+        # print(f"email: {email}")
+        # print(f"actual_password: {actual_password}")
+        # print(f"new_password: {new_password}")
+        # print(f"re_new_password: {re_new_password}")
+
         # print(email)
         try:
             user = User.objects.get(email=email)
-            print(user)
+            # print(f"user: {user}")
+            # print(f"user password: {user.password}")
+            # print(f"user actual: {actual_password}")
+            # print(check_password(actual_password, user.password))
+            if actual_password ==  user.password:
+                if new_password == re_new_password:
+                    user.password = new_password
+                    user.save()
+                    messages.success(request, 'Se ha cambiado la contraseña correctamente.')
+                else:
+                    messages.error(request, 'Las contraseñas no coinciden.')
+            else:
+                messages.error(request, 'La contraseña actual es incorrecta.')
             # Enviar correo electrónico al usuario con la contraseña
             # Aquí debes implementar tu propia lógica para enviar el correo electrónico
-            messages.success(request, 'Se ha enviado un correo electrónico con la contraseña.')
         except User.DoesNotExist:
             # No existe un usuario con ese correo electrónico
             messages.error(request, 'No existe un usuario con ese correo electrónico.')
+        except Exception as e:
+            # Algo salió mal
+            messages.error(request, 'Algo salió mal.')
+            print(e)
     return render(request ,"html/reset_password.html")
 
 class Client_view:
@@ -191,8 +218,9 @@ class Manual_view:
     def new_manual(request):
         if request.method == 'POST':
             # Crea un formulario de cliente y rellénalo con los datos de la petición
-            form = ManualesForm(request.POST)
-            
+            print(f"Formulario: {request.POST}")
+            form = ManualesForm(request.POST, request.FILES)
+            print(f"Formulario: {(request.FILES)}")
             # Verifica si el formulario es válido
             print(f"Formulario: {(form.is_valid())}")
             clean_data = form.cleaned_data
@@ -205,7 +233,13 @@ class Manual_view:
                 return redirect('manuales')
 
             else:
+                print(f"Errores: {form.errors}")
                 for error in form.errors.as_data():
+                    print(error)
                     messages.error(request, list(form.errors.as_data()[error][0])[0])
 
-        return render(request ,"html/new_manual.html")
+        return render(request ,"html/new_manual.html", {'form': ManualesForm()})
+    
+    def download_manual(request, id):
+        manual = Manual.objects.get(id=id)
+        return render(request ,"html/download_manual.html", {'manual': manual})

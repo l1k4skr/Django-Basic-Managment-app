@@ -21,7 +21,7 @@
     <main>
         <div class="container">
             <h2>Nuevo Manual</h2>
-            <form method="post" action="{% url 'nuevo_manual' %}">
+            <form method="post" action="{% url 'nuevo_manual' %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 {% if messages %}
                     {% for message in messages %}
@@ -30,22 +30,8 @@
                         </div>
                     {% endfor %}
                 {% endif %}
-                <div class="form-group">
-                    <label for="nombre_manual">Nombre manual: </label>
-                    <input type="text" id="nombre_manual" name="nombre_manual" required>
-                </div>
-                <div class="form-group">
-                    <label for="tipo_manual">Tipo manual: </label>
-                    <input type="text" id="tipo_manual" name="tipo_manual" required>
-                </div>
-                <div class="form-group">
-                    <label for="año_manual">Año manual: </label>
-                    <input type="text" id="año_manual" name="año_manual" required>
-                </div>
-                <div class="form-group">
-                    <label for="pdf_manual">Pdf manual: </label>
-                    <input type="file" id="pdf_manual" name="pdf_manual" required>
-                </div>
+                {{ form.as_p }}
+
                     <button type="submit" class="btn">Agregar Nuevo</button>
                 
             </form>

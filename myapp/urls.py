@@ -15,4 +15,6 @@ urlpatterns = [
     path('index/configuracion/nuevo_usuario', views.Config_view.new_user, name="nuevo_usuario"),
     path('index/manuales/', views.Manual_view.manual, name="manuales"),
     path('index/manuales/nuevo_manual/', views.Manual_view.new_manual, name="nuevo_manual"),
+    path('descargar_manual/<int:id>', views.Manual_view.download_manual, name="descargar_manual"),
+    
     ]
