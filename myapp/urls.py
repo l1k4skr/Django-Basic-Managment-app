@@ -28,16 +28,14 @@ urlpatterns = [
     # Maquinaria
     path('index/maquinaria/', views.Machine_view.machine, name="maquinaria"),
     path('index/maquinaria/nueva_maquinaria/', views.Machine_view.new_machine, name="nueva_maquinaria"),
-    path('index/descargar_manual/<int:id>', views.Manual_view.download_manual, name="descargar_manual"),
-    path('index/manuales/editar/<int:id>/', views.Manual_view.edit_manual, name='editar_manual'),
-    path('index/manuales/eliminar/<int:id>/', views.Manual_view.delete_manual, name='eliminar_manual'),
+    path('index/maquinaria/editar/<int:id>/', views.Machine_view.edit_maquinaria, name='editar_maquinaria'),
+    path('index/maquinaria/eliminar/<int:id>/', views.Machine_view.delete_maquinaria, name='eliminar_maquinaria'),
     
     # Configuracion
     path('index/configuracion/', views.Config_view.config, name="configuracion"),
     path('index/configuracion/nuevo_usuario', views.Config_view.new_user, name="nuevo_usuario"),
-    path('index/descargar_manual/<int:id>', views.Manual_view.download_manual, name="descargar_manual"),
-    path('index/manuales/editar/<int:id>/', views.Manual_view.edit_manual, name='editar_manual'),
-    path('index/manuales/eliminar/<int:id>/', views.Manual_view.delete_manual, name='eliminar_manual'),
+    path('index/configuracion/editar/<int:id>/', views.Config_view.edit_user, name='editar_usuario'),
+    path('index/configuracion/eliminar/<int:id>/', views.Config_view.delete_user, name='eliminar_usuario'),
 
     # Manuales
     path('index/manuales/', views.Manual_view.manual, name="manuales"),

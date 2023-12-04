@@ -3,24 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar cliente</title>
+    <title>Editar Maquinaria</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style_client.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style_machine.css' %}">
     <style id="applicationStylesheet" type="text/css">
-        /* Tus estilos personalizados aquí */
     </style>
 </head>
 <body>
     <header>
         <div>
-            <!-- Aquí puedes poner el logo si tienes uno -->
             <img src="" alt="">
-            <h2>Editar cliente</h2>
+            <h2>Editar Maquinaria</h2>
         </div>
     </header>
     <main>
         <div class="container">
-            <form method="post" action="{% url 'editar_cliente' id=cliente.id %}" enctype="multipart/form-data">
+            <form method="post" action="{% url 'editar_maquinaria' id=maquinaria.id %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 {% if messages %}
                     {% for message in messages %}
@@ -34,7 +32,7 @@
                 <button type="submit" class="btn">Guardar Cambios</button>
                 
             </form>
-            <a href="{% url 'cliente' %}">Volver</a>
+            <a href="{% url 'maquinaria' %}">Volver</a>
         </div>
     </main>
 </body>

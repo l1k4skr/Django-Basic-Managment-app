@@ -202,14 +202,37 @@ class Machine_view:
     def new_machine(request):
         if request.method == 'POST':
             maquinariaform = MaquinariaForm(request.POST)
-            # print(f"Formulario: {request.POST}")
-            # print(f"Formulario: {(maquinariaform.errors)}")
-            # print(f"Formulario valido: {(maquinariaform.is_valid())}")
+            print(f"Formulario: {request.POST}")
+            print(f"Formulario: {(maquinariaform.errors)}")
+            print(f"Formulario valido: {(maquinariaform.is_valid())}")
             if maquinariaform.is_valid():
                 maquinariaform.save()
                 messages.success(request, '¡Maquinaria creada correctamente!')
                 return redirect('maquinaria')
         return render(request ,"html/new_machine.html")
+    
+    # Edit machine view
+    def edit_maquinaria(request, id):
+        maquinaria = get_object_or_404(Maquinaria, pk=id)
+        if request.method == "POST":
+            form = MaquinariaForm(request.POST, instance=maquinaria)
+            if form.is_valid():
+                form.save()
+                messages.success(request, '¡Maquinaria editada correctamente!')
+                return redirect('maquinaria')
+        else:
+            form = MaquinariaForm(instance=maquinaria)
+        return render(request, 'html/edit_maquinaria.html', {'form': form, 'maquinaria': maquinaria})
+    
+    # Delete machine view
+    def delete_maquinaria(request, id):
+        maquinaria = get_object_or_404(Maquinaria, id=id)
+        if request.method == 'POST':
+            maquinaria.delete()
+            messages.success(request, 'Maquinaria eliminada con éxito.')
+            return redirect('maquinaria')
+        return render(request, 'html/confirm_maquinaria_delete.html', {'maquinaria': maquinaria})
+    
 
 class Config_view:
     # Config view
@@ -223,13 +246,13 @@ class Config_view:
         if request.method == 'POST':
             # Crea un formulario de cliente y rellénalo con los datos de la petición
             form = UserForm(request.POST)
-            
+            # print(f"Formulario: {request.POST}")
             # Verifica si el formulario es válido
-            print(f"Formulario: {(form.is_valid())}")
-            re_password = dict(request.POST)['re_password'][0]
-            print(f"re_password: {re_password}")
+            # print(f"Formulario: {(form.is_valid())}")
+            re_password = dict(request.POST)['confirm_password'][0]
+            # print(f"re_password: {re_password}")
             clean_data = form.cleaned_data
-            print(f"cleandata:{clean_data}")
+            # print(f"cleandata:{clean_data}")
             if form.is_valid() and clean_data['password'] == re_password:
                 # Aquí podrías hacer alguna lógica de negocio adicional si es necesario
                 form.save()
@@ -249,6 +272,28 @@ class Config_view:
 
                 # return render(request, 'html/new_client.html', {'form': form, 'error_message': errores_formato})
         return render(request ,"html/new_user.html")
+    
+    # Edit config view
+    def edit_user(request, id):
+        user = get_object_or_404(User, pk=id)
+        if request.method == "POST":
+            form = UserForm(request.POST, instance=user)
+            if form.is_valid():
+                form.save()
+                return redirect('configuracion')
+        else:
+            form = UserForm(instance=user)
+        return render(request, 'html/edit_user.html', {'form': form, 'user': user})
+    
+    # Delete config view
+    def delete_user(request, id):
+        user = get_object_or_404(User, id=id)
+        if request.method == 'POST':
+            user.delete()
+            messages.success(request, 'Usuario eliminado con éxito.')
+            return redirect('configuracion')
+        return render(request, 'html/confirm_user_delete.html', {'user': user})
+    
 class Manual_view:
 
     # Manual view

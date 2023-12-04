@@ -47,8 +47,8 @@
                     <td>{{ user.telefono }}</td>
                     <td>{{ user.cargo }}</td>
                     <td>
-                        <a href="#">EDITAR</a>
-                        <a href="#">ELIMINAR</a>
+                        <a href="{% url 'editar_usuario' id=user.id %}">EDITAR</a>
+                        <a href="{% url 'eliminar_usuario' id=user.id %}">ELIMINAR</a>
                     </td>
                 </tr>
                 {% endfor %}

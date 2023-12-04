@@ -34,6 +34,7 @@
         <table>
             <thead>
                 <tr>
+                    <th>NUMERO DE SERIE</th>
                     <th>ORDEN</th>
                     <th>CLIENTE</th>
                     <th>MAQUINARIA</th>
@@ -47,6 +48,7 @@
             <tbody>
                 {% for maquina in maquinas %}
                 <tr>
+                    <td>{{ maquina.numero_serie }}</td>
                     <td>{{ maquina.orden }}</td>
                     <td>{{ maquina.cliente }}</td>
                     <td>{{ maquina.maquinaria }}</td>
@@ -55,8 +57,8 @@
                     <td>{{ maquina.fecha }}</td>
                     <td>{{ maquina.problema }}</td>
                     <td>
-                        <a href="#">EDITAR</a>
-                        <a href="#">ELIMINAR</a>
+                        <a href="{% url 'editar_maquinaria' id=maquina.id %}">EDITAR</a>
+                        <a href="{% url 'eliminar_maquinaria' id=maquina.id %}">ELIMINAR</a>
                     </td>
                 </tr>
                 {% endfor %}
