@@ -1,80 +1,103 @@
+/* Reset para garantizar la coherencia entre navegadores */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-img {
-    max-width: 100%;
-    height: auto;
 
-}
-
-/* Estilos para el cuerpo del documento */
 body {
-    font-family: Arial, sans-serif; /* Fuente por defecto */
-    line-height: 1.6; /* Altura de línea para una mejor lectura */
-    padding: 20px; /* Un poco de padding para no tocar los bordes de la ventana */
-    background-color: #f4f4f4; /* Un color de fondo suave */
-    color: #333; /* Color de texto principal */
-}
-
-/* Estilos para el contenedor principal */
-.container {
-    width: 80%; /* Ancho del contenedor */
-    margin: auto; /* Centrar el contenedor */
-    overflow: hidden; /* Manejar el desbordamiento */
-}
-
-/* Estilos para los encabezados */
-h1, h2, h3, h4, h5, h6 {
-    margin-bottom: 20px; /* Margen inferior para separar de los siguientes elementos */
-}
-
-/* Estilos para los párrafos */
-p {
-    margin-bottom: 10px; /* Margen inferior para separar párrafos */
-}
-
-/* Clase de utilidad para añadir un margen superior */
-.mt {
-    margin-top: 20px;
-}
-
-/* Clase de utilidad para añadir un margen inferior */
-.mb {
-    margin-bottom: 20px;
-}
-
-/* Estilos para los enlaces */
-a {
+    font-family: 'Arial', sans-serif; /* Asegúrate de que esta sea la fuente deseada */
+    line-height: 1.6;
+    background-color: #f4f4f4; /* Color de fondo como en la imagen */
     color: #333;
-    text-decoration: none; /* Remover el subrayado de los enlaces */
+    padding: 20px;
 }
 
-a:hover {
-    color: #555;
-    text-decoration: underline; /* Subrayado al pasar el mouse para indicar clickeabilidad */
+/* Estilo para la cabecera, ajusta los valores según tu diseño */
+header {
+    color: #fff;
+    background: #007bff; /* Ajusta este valor al color exacto de tu diseño */
+    padding: 10px 0;
+    text-align: center;
 }
 
-/* Estilos para los botones */
-button {
+/* Estilos para el logo y la información de contacto */
+.logo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.logo img {
+    /* Ajusta el tamaño según sea necesario */
+}
+
+.contact-info {
+    text-align: right;
+}
+
+.contact-info div {
+    margin-bottom: 5px;
+}
+
+/* Ajustes para el contenido principal */
+.content-1 span {
+    font-size: 2rem; /* Ajusta el tamaño de la fuente */
+    display: block; /* Hace que span se comporte como bloque */
+    margin-bottom: 20px; /* Espacio debajo del span */
+    color: #333; /* Ajusta el color del texto */
+}
+
+.content-2 {
+    text-align: center; /* Centra los elementos */
+}
+
+.content-2 h3 {
+    color: #333; /* Ajusta el color del texto */
+    font-size: 1.5rem; /* Ajusta el tamaño de la fuente */
+    margin-bottom: 10px; /* Espacio debajo del título */
+}
+
+.search-type {
+    display: flex;
+    justify-content: space-around; /* Espaciado uniforme de los elementos */
+    flex-wrap: wrap; /* Permite la envoltura de elementos */
+    gap: 20px; /* Espacio entre elementos */
+}
+
+.search-type a {
+    text-align: center; /* Centra el texto de los enlaces */
+    color: #333; /* Ajusta el color del texto */
+    text-decoration: none; /* Quita el subrayado */
+}
+
+.search-type img {
+    margin-bottom: 10px; /* Espacio debajo de las imágenes */
+}
+
+/* Estilo para el botón de volver */
+.button-back {
     display: inline-block;
-    padding: 10px 20px;
-    font-size: 18px;
-    cursor: pointer;
-    border-radius: 5px;
-    border: none;
-    background-color: #333;
+    margin-top: 20px; /* Ajusta según sea necesario */
+    background: #28a745; /* Ajusta este valor al color exacto de tu diseño */
     color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
 }
 
-button:hover {
-    background-color: #555;
+.button-back:hover {
+    background: #218838; /* Un color ligeramente más oscuro para el efecto hover */
 }
 
-/* Media query para la responsividad */
 @media (max-width: 768px) {
-    .container {
-        width: 95%;
+    .logo, .contact-info {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .logo img {
+        margin-bottom: 10px;
     }
 }

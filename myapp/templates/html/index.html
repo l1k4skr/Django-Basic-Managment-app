@@ -35,27 +35,27 @@
             <span>Selecciona el tipo de búsqueda que necesita:</span>
             <div class="search-type">
                 <a href="{% url 'cliente' %}">
-                    <img src="cliente-icon.png" alt="Cliente">
+                    <img src="{% static 'img/CLIENTE.png'%}" alt="Cliente">
                     <p>CLIENTE</p>
                 </a>
                 <a href="{% url 'trazability' %}">
-                    <img src="trazabilidad-icon.png" alt="Trazabilidad">
+                    <img src="{% static 'img/TRAZABILIDAD.png'%}" alt="Trazabilidad">
                     <p>TRAZABILIDAD</p>
                 </a>
                 <a href="{% url 'maquinaria' %}">
-                    <img src="maquinaria-icon.png" alt="Maquinaria">
+                    <img src="{% static 'img/MAQUINARIA.png'%}" alt="Maquinaria">
                     <p>MAQUINARIA</p>
                 </a>
                 <a href="{% url 'configuracion' %}">
-                    <img src="configuracion-icon.png" alt="Configuración">
+                    <img src="{% static 'img/CONFIGURACION.png'%}" alt="Configuración">
                     <p>CONFIGURACIÓN</p>
                 </a>
                 <a href="{% url 'manuales' %}">
-                    <img src="manuales-icon.png" alt="Manuales">
+                    <img src="{% static 'img/MANUALES.png'%}" alt="Manuales">
                     <p>MANUALES</p>
                 </a>
             </div>
-            <a href="#" class="button-back">VOLVER</a>
+            <a href="{% url 'login' %}" class="button-back">Cerrar Sesión</a>
         </div>
     </main>
 

@@ -45,8 +45,8 @@ def login(request):
             user = User.objects.get(email=email)
             # print(check_password(password, user.password))
             # # Verificar la contraseña; asumimos que está hashada
-            # print(user.password)
-            # print(password)
+            print(user.password)
+            print(password)
             # print(password==user.password)
             if password== user.password:
                 # La contraseña es correcta; ahora debes iniciar sesión al usuario manualmente
@@ -251,14 +251,14 @@ class Config_view:
             # print(f"Formulario: {(form.is_valid())}")
             re_password = dict(request.POST)['confirm_password'][0]
             # print(f"re_password: {re_password}")
-            clean_data = form.cleaned_data
+            password = dict(request.POST)['password'][0]
             # print(f"cleandata:{clean_data}")
-            if form.is_valid() and clean_data['password'] == re_password:
+            if form.is_valid() and password == re_password:
                 # Aquí podrías hacer alguna lógica de negocio adicional si es necesario
                 form.save()
                 messages.success(request, '¡Usuario creado correctamente!')
                 return redirect('configuracion')
-            elif clean_data['password'] != re_password:
+            elif password != re_password:
                 messages.error(request, 'Las contraseñas no coinciden.')
             else:
                 # print(f"Errores: {form.errors}")
