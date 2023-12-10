@@ -35,13 +35,14 @@ def home(request):
     return render(request ,"html/home.html")
 
 # Login view
-def login(request):
+def login_view(request):
     if request.method == "POST":
         email = request.POST.get('email')
         password = request.POST.get('password')
 
         try:    
-            # Aquí asumimos que el campo de correo electrónico es único
+            # Aquí que el campo de correo electrónico es único
+
             user = User.objects.get(email=email)
             # print(check_password(password, user.password))
             # # Verificar la contraseña; asumimos que está hashada
@@ -52,7 +53,7 @@ def login(request):
                 # La contraseña es correcta; ahora debes iniciar sesión al usuario manualmente
                 # Necesitas manejar la sesión tú mismo si no estás usando `authenticate()`
                 # Esto puede implicar establecer la ID del usuario en la sesión y manejar `logout` etc.
-                # auth_login(request, user)
+                auth_login(request, user)
                 return redirect('index')
             else:
                 # Contraseña incorrecta
@@ -70,7 +71,6 @@ def reset_password(request):
     if request.method == 'POST':
         
         email = request.POST.get('email')
-        actual_password = request.POST.get('password')
         new_password = request.POST.get('new-password')
         re_new_password = request.POST.get('re-new-password')
 
@@ -87,15 +87,12 @@ def reset_password(request):
             # print(f"user password: {user.password}")
             # print(f"user actual: {actual_password}")
             # print(check_password(actual_password, user.password))
-            if actual_password ==  user.password:
-                if new_password == re_new_password:
-                    user.password = new_password
-                    user.save()
-                    messages.success(request, 'Se ha cambiado la contraseña correctamente.')
-                else:
-                    messages.error(request, 'Las contraseñas no coinciden.')
+            if new_password == re_new_password:
+                user.password = new_password
+                user.save()
+                messages.success(request, 'Se ha cambiado la contraseña correctamente.')
             else:
-                messages.error(request, 'La contraseña actual es incorrecta.')
+                messages.error(request, 'Las contraseñas no coinciden.')
             # Enviar correo electrónico al usuario con la contraseña
             # Aquí debes implementar tu propia lógica para enviar el correo electrónico
         except User.DoesNotExist:
@@ -196,20 +193,80 @@ def edit_trazability(request, id):
 class Machine_view:
     # Machine view
     def machine(request):
+        print(request.user)
         maquinas = Maquinaria.objects.all()
         return render(request ,"html/machine.html", {'maquinas': maquinas})
     # New machine view
     def new_machine(request):
+        print(request.user)
         if request.method == 'POST':
             maquinariaform = MaquinariaForm(request.POST)
-            print(f"Formulario: {request.POST}")
-            print(f"Formulario: {(maquinariaform.errors)}")
-            print(f"Formulario valido: {(maquinariaform.is_valid())}")
             if maquinariaform.is_valid():
-                maquinariaform.save()
+                # Extrayendo el valor de 'orden' del formulario
+                clean_data = maquinariaform.cleaned_data
+                print(f"cleandata:{clean_data}")
+
+                email = request.POST.get('email')
+                password = request.POST.get('password1')
+
+                try:
+                    user = User.objects.get(email=email)
+                    if password == user.password:
+                        pass
+                    else:
+                        messages.error(request, 'La contraseña es incorrecta.')
+                        return redirect('nueva_maquinaria')
+                except User.DoesNotExist:
+                    messages.error(request, 'No existe un usuario con ese correo electrónico.')
+                    return redirect('nueva_maquinaria')
+                except Exception as e:
+                    messages.error(request, 'Algo salió mal.')
+                    print(e)
+                    return redirect('nueva_maquinaria')
+                
+                orden= user.get_orden()
+
+                # Creando la trazabilidad
+                trazabilidad = Trazabilidad(
+                    n_orden_trazabilidad = orden,
+                    cliente_trazabilidad = clean_data['cliente'],
+                    maquinaria_trazabilidad = clean_data['maquinaria'],
+                    marca_trazabilidad = clean_data['marca'],
+                    año_trazabilidad = clean_data['año'],
+                    fecha_trazabilidad = clean_data['fecha'],
+                    descripcion_problema_trazabilidad = clean_data['problema']
+                )
+                trazabilidad.save()
+
+                # Creando la maquinaria
+                maquinaria = Maquinaria(
+                    orden = orden,
+                    numero_serie = clean_data['numero_serie'],
+                    cliente = clean_data['cliente'],
+                    maquinaria = clean_data['maquinaria'],
+                    marca = clean_data['marca'],
+                    año = clean_data['año'],
+                    fecha = clean_data['fecha'],
+                    problema = clean_data['problema']
+                )
+                maquinaria.save()
+
+
+                # Verificar si existe la trazabilidad, si no, crearla
+                
                 messages.success(request, '¡Maquinaria creada correctamente!')
                 return redirect('maquinaria')
-        return render(request ,"html/new_machine.html")
+
+            else:
+                print(f"Errores: {maquinariaform.errors}")
+                for error in maquinariaform.errors.as_data():
+                    print(error)
+                    print(list(maquinariaform.errors.as_data()[error][0])[0])
+                    messages.error(request, list(maquinariaform.errors.as_data()[error][0])[0])
+                    messages.error(request, "Error al crear maquinaria.")
+
+        return render(request ,"html/new_machine.html", {'form': MaquinariaForm()})
+
     
     # Edit machine view
     def edit_maquinaria(request, id):
@@ -227,8 +284,11 @@ class Machine_view:
     # Delete machine view
     def delete_maquinaria(request, id):
         maquinaria = get_object_or_404(Maquinaria, id=id)
+        trazabilidad = Trazabilidad.objects.get(n_orden_trazabilidad=maquinaria.orden)
+
         if request.method == 'POST':
             maquinaria.delete()
+            trazabilidad.delete()
             messages.success(request, 'Maquinaria eliminada con éxito.')
             return redirect('maquinaria')
         return render(request, 'html/confirm_maquinaria_delete.html', {'maquinaria': maquinaria})

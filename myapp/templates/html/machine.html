@@ -35,6 +35,7 @@
             <thead>
                 <tr>
                     <th>NUMERO DE SERIE</th>
+                    <th>NUMERO DE ORDEN</th>
                     <th>ORDEN</th>
                     <th>CLIENTE</th>
                     <th>MAQUINARIA</th>
@@ -49,6 +50,7 @@
                 {% for maquina in maquinas %}
                 <tr>
                     <td>{{ maquina.numero_serie }}</td>
+                    <td>{{ maquina.orden }}</td>
                     <td>{{ maquina.orden }}</td>
                     <td>{{ maquina.cliente }}</td>
                     <td>{{ maquina.maquinaria }}</td>

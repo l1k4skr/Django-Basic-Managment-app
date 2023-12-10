@@ -1,4 +1,11 @@
 from django.db.models import *
+import time
+def generar_numero_aleatorio() -> str:
+    # Usamos el tiempo actual en segundos para generar números "aleatorios"
+    tiempo_actual = int(time.time())
+    numero_aleatorio = tiempo_actual % 100000000  # Aseguramos 8 dígitos
+    return f"{numero_aleatorio:08d}"
+
 
 class User(Model):
     username = CharField(max_length=100)
@@ -9,9 +16,13 @@ class User(Model):
     telefono = CharField(max_length=15)
     cargo = CharField(max_length=100)
     password = CharField(max_length=20)
+    last_login = DateTimeField(auto_now=True)
+    orden = generar_numero_aleatorio()  # RR00000001
 
     def __str__(self):
         return self.username
+    def get_orden(self):
+        return self.siglas + self.orden
 
 class Cliente(Model):
     """Modelo que representa a un cliente que posee maquinaria médica."""
@@ -24,36 +35,36 @@ class Cliente(Model):
     # Agregar Maquinaria > ForeignKey(Maquinaria, on_delete=CASCADE) 1 a muchos <    
     def __str__(self):
         return self.nombre
-
+    
 class Maquinaria(Model):
     """Modelo que representa una máquina médica de un cliente."""
-    orden = CharField(max_length=100)
-    numero_serie = CharField(max_length=100) # agregar numero de serie > CharField(max_length=100)
+    orden = CharField(max_length=100, default=generar_numero_aleatorio)  # RR00000001
+    numero_serie = CharField(max_length=100) 
     cliente = CharField(max_length=100)
     maquinaria =  CharField(max_length=100)  #ForeignKey(Cliente, on_delete=CASCADE)
-    marca = CharField(max_length=100)  # Cliente > ForeignKey(Cliente, related_name='maquinarias', on_delete=CASCADE) 1 a 1 >
+    marca = CharField(max_length=100) 
     año = PositiveIntegerField()
-    fecha = DateField()
+    fecha = DateField( )
     problema = TextField(blank=True)
+
     
     def __str__(self):
         return self.MARCA
-
+    
 class Trazabilidad(Model):
     """Modelo que representa la trazabilidad de una máquina médica."""
-    n_orden = CharField(max_length=10, unique=True)  # RR00000001
-    cliente = CharField(max_length=100) #ForeignKey(Cliente, on_delete=CASCADE)
-    maquinaria = CharField(max_length=100) #ForeignKey(Maquinaria, on_delete=CASCADE, null=True, blank=True)  # Permitir valores nulos
-    marca= CharField(max_length=100)
-    año = PositiveIntegerField()
-    fecha = DateField()
-    descripcion_problema = TextField()
+    n_orden_trazabilidad = CharField(max_length=100)  # RR00000001
+    cliente_trazabilidad = CharField(max_length=100) 
+    maquinaria_trazabilidad = CharField(max_length=100) 
+    marca_trazabilidad= CharField(max_length=100)
+    año_trazabilidad = PositiveIntegerField()
+    fecha_trazabilidad = DateField()
+    descripcion_problema_trazabilidad = TextField()
 
-    # class Meta:
-    #     unique_together = ['cliente', 'maquinaria']
-    
     def __str__(self):
         return f"{self.cliente} - {self.maquinaria} - {self.fecha}"
+
+
 
 class Manual(Model):
     """Modelo que representa un manual de una máquina médica."""

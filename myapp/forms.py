@@ -19,8 +19,10 @@ class ClienteForm(forms.ModelForm):
 class MaquinariaForm(forms.ModelForm):
     class Meta:
         model = Maquinaria
-        fields = ['orden', 'numero_serie', 'cliente', 'maquinaria', 'marca', 'año', 'fecha', 'problema']
-        # Puedes añadir widgets personalizados si es necesario
+        fields = ['numero_serie', 'cliente', 'maquinaria', 'marca', 'año', 'fecha', 'problema']
+        widgets = {
+            'fecha': forms.DateInput(attrs={'type': 'date'}),
+        }
 
 class ManualesForm(forms.ModelForm):
     class Meta:

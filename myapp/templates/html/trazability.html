@@ -29,7 +29,8 @@
                         <th>N ORDEN</th>
                         <th>CLIENTE</th>
                         <th>MAQUINARIA</th>
-                        <th>TIPO</th>
+                        <th>MARCA</th>
+                        <th>AÑO</th>
                         <th>FECHA</th>
                         <th>DESCRIPCION</th>
                         <th>ACCIONES</th>
@@ -39,12 +40,13 @@
             <tbody>
                 {% for trazability in trazabilities %}
                 <tr>
-                    <td>{{ trazability.n_orden }}</td>
-                    <td>{{ trazability.cliente }}</td>
-                    <td>{{ trazability.maquinaria }}</td>
-                    <td>{{ trazability.tipo }}</td>
-                    <td>{{ trazability.fecha }}</td>
-                    <td>{{ trazability.descripcion }}</td>
+                    <td>{{ trazability.n_orden_trazabilidad }}</td>
+                    <td>{{ trazability.cliente_trazabilidad }}</td>
+                    <td>{{ trazability.maquinaria_trazabilidad }}</td>
+                    <td>{{ trazability.marca_trazabilidad }}</td>
+                    <td>{{ trazability.año_trazabilidad }}</td>
+                    <td>{{ trazability.fecha_trazabilidad }}</td>
+                    <td>{{ trazability.descripcion_problema_trazabilidad }}</td>
                     <td>
                         <a href="#">EDITAR</a>
                         <a href="#">ELIMINAR</a>
