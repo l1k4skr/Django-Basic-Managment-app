@@ -35,13 +35,13 @@
             <thead>
                 <tr>
                     <th>NUMERO DE SERIE</th>
-                    <th>NUMERO DE ORDEN</th>
                     <th>ORDEN</th>
                     <th>CLIENTE</th>
                     <th>MAQUINARIA</th>
                     <th>MARCA</th>
                     <th>AÑO</th>
                     <th>FECHA</th>
+                    <th>FECHA CREACION</th>
                     <th>PROBLEMA</th>
                     <th>ACCIONES</th>
                 </tr>
@@ -51,12 +51,12 @@
                 <tr>
                     <td>{{ maquina.numero_serie }}</td>
                     <td>{{ maquina.orden }}</td>
-                    <td>{{ maquina.orden }}</td>
                     <td>{{ maquina.cliente }}</td>
                     <td>{{ maquina.maquinaria }}</td>
                     <td>{{ maquina.marca }}</td>
                     <td>{{ maquina.año }}</td>
                     <td>{{ maquina.fecha }}</td>
+                    <td>{{ maquina.fecha_creacion_m }}</td>
                     <td>{{ maquina.problema }}</td>
                     <td>
                         <a href="{% url 'editar_maquinaria' id=maquina.id %}">EDITAR</a>

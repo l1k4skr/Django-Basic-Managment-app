@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+import time
 from .models import User, Cliente, Maquinaria, Trazabilidad, Manual
 from .forms import LoginForm, ClienteForm, MaquinariaForm, UserForm, ManualesForm
 from django.contrib import messages
@@ -8,6 +9,9 @@ from django.http import FileResponse
 import os
 from django.conf import settings
 from django.http import HttpResponseNotFound
+from django.db import transaction
+
+
 """
 VIEWS
 - [X]  Home
@@ -21,8 +25,8 @@ VIEWS
         - [X]  Nuevo
     - [X]  Configuración
         - [X]  Nuevo
-    - []  Manuales
-        - []  Nuevo
+    - [X]  Manuales
+        - [X]  Nuevo
 """
 
 # Create your views here.
@@ -42,17 +46,8 @@ def login_view(request):
 
         try:    
             # Aquí que el campo de correo electrónico es único
-
             user = User.objects.get(email=email)
-            # print(check_password(password, user.password))
-            # # Verificar la contraseña; asumimos que está hashada
-            print(user.password)
-            print(password)
-            # print(password==user.password)
             if password== user.password:
-                # La contraseña es correcta; ahora debes iniciar sesión al usuario manualmente
-                # Necesitas manejar la sesión tú mismo si no estás usando `authenticate()`
-                # Esto puede implicar establecer la ID del usuario en la sesión y manejar `logout` etc.
                 auth_login(request, user)
                 return redirect('index')
             else:
@@ -74,31 +69,20 @@ def reset_password(request):
         new_password = request.POST.get('new-password')
         re_new_password = request.POST.get('re-new-password')
 
-        # print(f"request: {request.POST}")
-        # print(f"email: {email}")
-        # print(f"actual_password: {actual_password}")
-        # print(f"new_password: {new_password}")
-        # print(f"re_new_password: {re_new_password}")
-
-        # print(email)
         try:
             user = User.objects.get(email=email)
-            # print(f"user: {user}")
-            # print(f"user password: {user.password}")
-            # print(f"user actual: {actual_password}")
-            # print(check_password(actual_password, user.password))
             if new_password == re_new_password:
                 user.password = new_password
                 user.save()
                 messages.success(request, 'Se ha cambiado la contraseña correctamente.')
             else:
                 messages.error(request, 'Las contraseñas no coinciden.')
-            # Enviar correo electrónico al usuario con la contraseña
-            # Aquí debes implementar tu propia lógica para enviar el correo electrónico
         except User.DoesNotExist:
+
             # No existe un usuario con ese correo electrónico
             messages.error(request, 'No existe un usuario con ese correo electrónico.')
         except Exception as e:
+
             # Algo salió mal
             messages.error(request, 'Algo salió mal.')
             print(e)
@@ -116,30 +100,22 @@ class Client_view:
     def new_client(request):
         if request.method == 'POST':
 
-            # Crea un formulario de cliente y rellénalo con los datos de la petición
+            # Crea un formulario de cliente y rellena con los datos de la petición
             form = ClienteForm(request.POST)
         
             # Verifica si el formulario es válido
             print(f"Formulario: {(form.is_valid())}")
 
             if form.is_valid():
-                # Aquí podrías hacer alguna lógica de negocio adicional si es necesario
                 form.save()
                 messages.success(request, '¡Cliente creado correctamente!')
-                return redirect('cliente')  # Redirecciona a la URL de la página principal
+                return redirect('cliente')  
             
             else:
-                # print(f"Errores: {form.errors}")
-                # errores_formato = list(form.errors.as_data()[list(form.errors.as_data().keys())[0]][0])[0]
-                # print(f"Errores: {errores_formato}")
-
                 for error in form.errors.as_data():
                     print(error)
                     print(list(form.errors.as_data()[error][0])[0])
                     messages.error(request, list(form.errors.as_data()[error][0])[0])
-
-                # return render(request, 'html/new_client.html', {'form': form, 'error_message': errores_formato})
-
         else:
             form = ClienteForm()
 
@@ -153,7 +129,7 @@ class Client_view:
             form = ClienteForm(request.POST, instance=cliente)
             if form.is_valid():
                 form.save()
-                return redirect('cliente')  # Redirigir a la lista de clientes después de guardar
+                return redirect('cliente')
             
         else:
             form = ClienteForm(instance=cliente)
@@ -167,35 +143,25 @@ class Client_view:
             messages.success(request, 'Cliente eliminado con éxito.')
             return redirect('cliente')
         return render(request, 'html/confirm_cliente_delete.html', {'cliente': cliente})
-    
-
 
 # Trazability view
 def trazability(request):
     trazability = Trazabilidad.objects.all()
     return render(request ,"html/trazability.html", {'trazabilities': trazability})
-
-# NECESITO CONECTAR MAQUINARIA CON CLIENTE CADA VEZ QUE SE AGREGE UNA MAQUINA NUEVA
-""" 
-def edit_trazability(request, id):
+def boleta(request, id):
     trazability = get_object_or_404(Trazabilidad, pk=id)
-    if request.method == "POST":
-        form = TrazabilityForm(request.POST, instance=trazability)
-        if form.is_valid():
-            form.save()
-            return redirect('trazability')  # Redirigir a la lista de clientes después de guardar
-        
-    else:
-        form = TrazabilityForm(instance=trazability)
-    return render(request, 'html/edit_trazability.html', {'form': form, 'trazability': trazability})
-"""
+    maquinaria = Maquinaria.objects.get(orden=trazability.n_orden_trazabilidad, fecha_creacion_m=trazability.fecha_creacion_t)
+    usuario = User.objects.get(orden=trazability.n_orden_trazabilidad)
+    return render(request ,"html/boleta.html", {'trazabilidad': trazability, 'maquinaria': maquinaria, 'usuario': usuario})
 
+
+# Machine view
 class Machine_view:
-    # Machine view
     def machine(request):
         print(request.user)
         maquinas = Maquinaria.objects.all()
         return render(request ,"html/machine.html", {'maquinas': maquinas})
+    
     # New machine view
     def new_machine(request):
         print(request.user)
@@ -225,6 +191,7 @@ class Machine_view:
                     return redirect('nueva_maquinaria')
                 
                 orden= user.get_orden()
+                time_now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
                 # Creando la trazabilidad
                 trazabilidad = Trazabilidad(
@@ -234,7 +201,8 @@ class Machine_view:
                     marca_trazabilidad = clean_data['marca'],
                     año_trazabilidad = clean_data['año'],
                     fecha_trazabilidad = clean_data['fecha'],
-                    descripcion_problema_trazabilidad = clean_data['problema']
+                    descripcion_problema_trazabilidad = clean_data['problema'],
+                    fecha_creacion_t = time_now
                 )
                 trazabilidad.save()
 
@@ -247,13 +215,11 @@ class Machine_view:
                     marca = clean_data['marca'],
                     año = clean_data['año'],
                     fecha = clean_data['fecha'],
-                    problema = clean_data['problema']
+                    problema = clean_data['problema'],
+                    fecha_creacion_m = time_now
                 )
                 maquinaria.save()
-
-
                 # Verificar si existe la trazabilidad, si no, crearla
-                
                 messages.success(request, '¡Maquinaria creada correctamente!')
                 return redirect('maquinaria')
 
@@ -266,7 +232,6 @@ class Machine_view:
                     messages.error(request, "Error al crear maquinaria.")
 
         return render(request ,"html/new_machine.html", {'form': MaquinariaForm()})
-
     
     # Edit machine view
     def edit_maquinaria(request, id):
@@ -284,15 +249,16 @@ class Machine_view:
     # Delete machine view
     def delete_maquinaria(request, id):
         maquinaria = get_object_or_404(Maquinaria, id=id)
-        trazabilidad = Trazabilidad.objects.get(n_orden_trazabilidad=maquinaria.orden)
 
         if request.method == 'POST':
-            maquinaria.delete()
-            trazabilidad.delete()
-            messages.success(request, 'Maquinaria eliminada con éxito.')
-            return redirect('maquinaria')
-        return render(request, 'html/confirm_maquinaria_delete.html', {'maquinaria': maquinaria})
+            with transaction.atomic():  
+                Trazabilidad.objects.filter(n_orden_trazabilidad=maquinaria.orden,fecha_creacion_t = maquinaria.fecha_creacion_m).delete()
+                maquinaria.delete()
+                messages.success(request, 'Maquinaria eliminada con éxito.')
+                return redirect('maquinaria')
     
+        return render(request, 'html/confirm_maquinaria_delete.html', {'maquinaria': maquinaria})
+        
 
 class Config_view:
     # Config view
@@ -304,33 +270,21 @@ class Config_view:
     # New config view
     def new_user(request):
         if request.method == 'POST':
-            # Crea un formulario de cliente y rellénalo con los datos de la petición
             form = UserForm(request.POST)
-            # print(f"Formulario: {request.POST}")
-            # Verifica si el formulario es válido
-            # print(f"Formulario: {(form.is_valid())}")
             re_password = dict(request.POST)['confirm_password'][0]
-            # print(f"re_password: {re_password}")
             password = dict(request.POST)['password'][0]
-            # print(f"cleandata:{clean_data}")
             if form.is_valid() and password == re_password:
-                # Aquí podrías hacer alguna lógica de negocio adicional si es necesario
                 form.save()
+                user = User.objects.get(username=dict(request.POST)['username'][0])
+                user.orden = user.get_orden()
+                user.save()
                 messages.success(request, '¡Usuario creado correctamente!')
                 return redirect('configuracion')
             elif password != re_password:
                 messages.error(request, 'Las contraseñas no coinciden.')
             else:
-                # print(f"Errores: {form.errors}")
-                # errores_formato = list(form.errors.as_data()[list(form.errors.as_data().keys())[0]][0])[0]
-                # print(f"Errores: {errores_formato}")
-
                 for error in form.errors.as_data():
-                    # print(error)
-                    # print(list(form.errors.as_data()[error][0])[0])
                     messages.error(request, list(form.errors.as_data()[error][0])[0])
-
-                # return render(request, 'html/new_client.html', {'form': form, 'error_message': errores_formato})
         return render(request ,"html/new_user.html")
     
     # Edit config view
@@ -363,17 +317,8 @@ class Manual_view:
     
     def new_manual(request):
         if request.method == 'POST':
-            # Crea un formulario de cliente y rellénalo con los datos de la petición
-            print(f"Formulario: {request.POST}")
             form = ManualesForm(request.POST, request.FILES)
-            print(f"Formulario: {(request.FILES)}")
-            # Verifica si el formulario es válido
-            print(f"Formulario: {(form.is_valid())}")
-            clean_data = form.cleaned_data
-            print(f"cleandata:{clean_data}")
-
             if form.is_valid():
-                # Aquí podrías hacer alguna lógica de negocio adicional si es necesario
                 form.save()
                 messages.success(request, '¡Manual creado correctamente!')
                 return redirect('manuales')
@@ -388,20 +333,17 @@ class Manual_view:
     
     def download_manual(request, id):
         manual = get_object_or_404(Manual, id=id)
-        pdf_file = manual.pdf_manual.path  # Asegúrate de que 'pdf_manual' es el nombre de tu campo FileField
+        pdf_file = manual.pdf_manual.path 
 
         if os.path.exists(pdf_file):
-            # No uses 'with' aquí para evitar cerrar el archivo
             try:
                 fh = open(pdf_file, 'rb')
                 response = FileResponse(fh, content_type='application/pdf')
                 response['Content-Disposition'] = f'inline; filename="{os.path.basename(pdf_file)}"'
                 return response
             except IOError:
-                # Manejar el error si el archivo no puede ser abierto
                 return HttpResponseNotFound('<h1>Error al abrir el archivo</h1>')
         else:
-            # Manejar el caso donde el archivo no existe
             return HttpResponseNotFound('<h1>Archivo no encontrado</h1>')
     
     def edit_manual(request, id):
@@ -410,15 +352,16 @@ class Manual_view:
             form = ManualesForm(request.POST, request.FILES, instance=manual)
             if form.is_valid():
                 form.save()
-                return redirect('manuales')  # Redirigir a la lista de manuales después de guardar
+                return redirect('manuales') 
         else:
             form = ManualesForm(instance=manual)
         return render(request, 'html/edit_manual.html', {'form': form, 'manual': manual})
     
     def delete_manual(request, id):
         manual = get_object_or_404(Manual, id=id)
-        if request.method == 'POST':  # Asegúrate de que la solicitud sea POST para evitar la eliminación accidental
+        if request.method == 'POST': 
             manual.delete()
             messages.success(request, 'Manual eliminado con éxito.')
             return redirect('manuales')  # Redirigir a la lista de manuales después de eliminar
         return render(request, 'html/confirm_manual_delete.html', {'manual': manual})
+    

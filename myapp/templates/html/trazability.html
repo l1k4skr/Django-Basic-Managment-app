@@ -48,8 +48,7 @@
                     <td>{{ trazability.fecha_trazabilidad }}</td>
                     <td>{{ trazability.descripcion_problema_trazabilidad }}</td>
                     <td>
-                        <a href="#">EDITAR</a>
-                        <a href="#">ELIMINAR</a>
+                        <a href="{% url 'boleta' id=trazability.id %}">Descargar PDF</a>
                     </td>
                 </tr>
                 {% endfor %}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <title>Boleta de Servicio</title>
+    <style>
+        body { font-family: Arial, sans-serif; 
+        font-size: 28px;
+        padding: 100px;        
+        }
+        .header { border-bottom: 1px solid #000; 
+        padding-bottom: 10px;
+        text-align: center;
+    }
+        .content { margin-top: 20px; }
+        .field { margin-bottom: 10px; }
+        .field label { font-weight: bold; }
+        #logo {text-align: right;}
+    </style>
+    <link rel="stylesheet" href="{% static 'css/style_index.css'%}">
+</head>
+<body>
+    <div class="header">
+        <img src="{% static 'img/logo.png'%}" alt="Logo" id="logo">
+        <h1>Déjenos darte una segunda opinión</h1>
+    </div>
+    <div class="content">
+        <div class="field">
+            <label>Señores:</label> <span>{{ maquinaria.cliente }}</span>
+        </div>
+        <div class="field">
+            <label>Dirección:</label> <span>{{ usuario.direccion}}</span>
+        </div>
+        <div class="field">
+            <label>Fono:</label> <span>{{ usuario.telefono}}</span>
+        </div>
+        <div class="field">
+            <label>Atención:</label> <span>{{ usuario.username}}</span>
+        </div>
+        <div class="field">
+            <label>Cotización número:</label> <span>{{ maquinaria.orden }}</span>
+        </div>
+        <div class="field">
+            <label>Fecha:</label> <span>{{ maquinaria.fecha }}</span>
+        </div>
+        <div class="field">
+            <label>Fecha de creación:</label> <span>{{ maquinaria.fecha_creacion_m }}</span>    
+        </div>
+        
+        <div class="field">
+            <label>Descripción del Problema:</label>
+            <p>{{ trazabilidad.descripcion_problema_trazabilidad }}</p>
+        </div>
+        <!-- Más campos según sea necesario -->
+    
+
+    </div>
+    <div class="footer">
+        <a href="{% url 'trazability'%}">Volver</a>
+    </body>
+</html>

@@ -18,13 +18,7 @@ urlpatterns = [
     
     # Trazabilidad
     path('index/trazabilidad/', views.trazability, name="trazability"),
-    path('index/descargar_manual/<int:id>', views.Manual_view.download_manual, name="descargar_manual"),
-    path('index/manuales/editar/<int:id>/', views.Manual_view.edit_manual, name='editar_manual'),
-    path('index/manuales/eliminar/<int:id>/', views.Manual_view.delete_manual, name='eliminar_manual'),
-    path('index/descargar_manual/<int:id>', views.Manual_view.download_manual, name="descargar_manual"),
-    path('index/manuales/editar/<int:id>/', views.Manual_view.edit_manual, name='editar_manual'),
-    path('index/manuales/eliminar/<int:id>/', views.Manual_view.delete_manual, name='eliminar_manual'),
-
+    path('index/trazabilidad/boleta/<int:id>', views.boleta, name="boleta"),
     # Maquinaria
     path('index/maquinaria/', views.Machine_view.machine, name="maquinaria"),
     path('index/maquinaria/nueva_maquinaria/', views.Machine_view.new_machine, name="nueva_maquinaria"),

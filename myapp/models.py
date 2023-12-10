@@ -17,12 +17,12 @@ class User(Model):
     cargo = CharField(max_length=100)
     password = CharField(max_length=20)
     last_login = DateTimeField(auto_now=True)
-    orden = generar_numero_aleatorio()  # RR00000001
+    orden = CharField(max_length=100)
 
     def __str__(self):
         return self.username
     def get_orden(self):
-        return self.siglas + self.orden
+        return self.siglas + generar_numero_aleatorio()
 
 class Cliente(Model):
     """Modelo que representa a un cliente que posee maquinaria médica."""
@@ -45,6 +45,7 @@ class Maquinaria(Model):
     marca = CharField(max_length=100) 
     año = PositiveIntegerField()
     fecha = DateField( )
+    fecha_creacion_m = DateTimeField()
     problema = TextField(blank=True)
 
     
@@ -60,6 +61,8 @@ class Trazabilidad(Model):
     año_trazabilidad = PositiveIntegerField()
     fecha_trazabilidad = DateField()
     descripcion_problema_trazabilidad = TextField()
+    fecha_creacion_t = DateTimeField()
+
 
     def __str__(self):
         return f"{self.cliente} - {self.maquinaria} - {self.fecha}"
