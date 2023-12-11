@@ -13,8 +13,7 @@ class UserForm(forms.ModelForm):
 class ClienteForm(forms.ModelForm):
     class Meta:
         model = Cliente
-        fields = ['nombre', 'razon_social', "rut", 'direccion', 'email', 'telefono']
-        # Puedes añadir widgets personalizados si es necesario
+        fields = ['nombre', 'razon_social', 'rut', 'direccion', 'email', 'telefono']
 
 class MaquinariaForm(forms.ModelForm):
     class Meta:
