@@ -19,6 +19,7 @@ header {
     background: #007bff; /* Ajusta este valor al color exacto de tu diseño */
     padding: 10px 0;
     text-align: center;
+    border-radius: 10px;
 }
 
 /* Estilos para el logo y la información de contacto */
@@ -29,10 +30,63 @@ header {
     padding: 0 20px;
 }
 
-.logo img {
-    /* Ajusta el tamaño según sea necesario */
+form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f3f3f3;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
-
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #007bff; /* Cambia el color del borde al enfocar */
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.2); /* Sombra suave alrededor del input */
+    outline: none; /* Elimina el contorno predeterminado */
+}
+input[type="submit"] {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+/* Estilo para el contenedor del grupo de formulario */
+.form-group {
+    margin-bottom: 20px; /* Espacio entre grupos de formulario */
+  }
+  
+  /* Estilo para las etiquetas del formulario */
+  .form-group label {
+    display: block; /* Hace que las etiquetas se muestren en una línea separada */
+    font-weight: bold; /* Texto en negrita para las etiquetas */
+    margin-bottom: 5px; /* Espacio entre etiquetas y campos de entrada */
+  }
+  
+  /* Estilo para los campos de entrada del formulario */
+  .form-group input {
+    width: 100%; /* Los campos de entrada ocupan todo el ancho del contenedor */
+    padding: 10px; /* Espacio interno para un aspecto más agradable */
+    border: 1px solid #ccc; /* Borde con color de borde gris claro */
+    border-radius: 4px; /* Bordes redondeados */
+    outline: none; /* Elimina el contorno predeterminado del campo en foco */
+    transition: border-color 0.2s; /* Efecto de transición en el color del borde */
+  }
+  
+  /* Cambio de estilo cuando el campo de entrada está en foco */
+  .form-group input:focus {
+    border-color: #007BFF; /* Cambia el color del borde cuando está en foco */
+  }
+  
+  /* Estilo para los mensajes de error (puedes ocultarlos o mostrarlos según tu lógica) */
+  .error-message {
+    color: #FF0000; /* Color rojo para los mensajes de error */
+    font-size: 14px; /* Tamaño de fuente para los mensajes de error */
+  }
 .contact-info {
     text-align: right;
 }

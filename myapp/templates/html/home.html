@@ -8,7 +8,58 @@
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/style_index.css'%}">
   <style id="applicationStylesheet" type="text/css">
-
+    .text-2xl {
+      font-size: 1.5rem; /* 24px */
+    }
+    .font-bold {
+      font-weight: bold;
+    }
+    .text-gray-800 {
+      color: #1f2937; /* Gris oscuro aproximado */
+    }
+    .text-gray-600 {
+      color: #4b5563; /* Gris medio aproximado */
+    }
+    .dark\:text-gray-200 {
+      color: #e5e7eb; /* Gris claro aproximado para modo oscuro */
+    }
+    .dark\:text-gray-400 {
+      color: #9ca3af; /* Gris medio claro para modo oscuro */
+    }
+    .h-8 {
+      height: 2rem; /* 32px */
+    }
+    .w-8 {
+      width: 2rem; /* 32px */
+    }
+    .h-6 {
+      height: 1.5rem; /* 24px */
+    }
+    .w-6 {
+      width: 1.5rem; /* 24px */
+    }
+    .space-x-4 > * + * {
+      margin-left: 1rem; /* 16px */
+    }
+    
+    .space-x-2 > * + * {
+      margin-left: 0.5rem; /* 8px */
+    }
+    .space-y-4 > * + * {
+      margin-top: 1rem; /* 16px */
+    }
+    .text-sm {
+      font-size: 0.875rem; /* 14px */
+    }
+    @media (prefers-color-scheme: dark) {
+      .dark\:text-gray-200 {
+        color: #e5e7eb;
+      }
+      .dark\:text-gray-400 {
+        color: #9ca3af;
+      }
+    }
+    /* Agrega aquí más estilos según sea necesario */
   </style>
 </head>
 
@@ -58,8 +109,10 @@
     </header>
     <main class="flex flex-col lg:flex-row justify-between items-center lg:space-x-8">
       <div class="space-y-4">
-        <p class="text-lg text-gray-600 dark:text-gray-400">En Recab Medical realizamos</p>
-        <h2 class="text-4xl font-bold text-gray-800 dark:text-gray-200">
+        <p style="font-size: 1.125rem;  color: #4b5563;">En Recab Medical realizamos</p>
+        <h2 style="font-size: 2.25rem; /* Equivalente a text-4xl en Tailwind */
+        font-weight: bold; /* Equivalente a font-bold en Tailwind */
+        color: #1f2937;">
           Reparación y mantenimiento de equipos médicos
         </h2>
       </div>

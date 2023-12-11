@@ -148,9 +148,11 @@ class Client_view:
 def trazability(request):
     trazability = Trazabilidad.objects.all()
     return render(request ,"html/trazability.html", {'trazabilities': trazability})
+
 def boleta(request, id):
     trazability = get_object_or_404(Trazabilidad, pk=id)
     maquinaria = Maquinaria.objects.get(orden=trazability.n_orden_trazabilidad, fecha_creacion_m=trazability.fecha_creacion_t)
+    print(trazability.n_orden_trazabilidad)
     usuario = User.objects.get(orden=trazability.n_orden_trazabilidad)
     return render(request ,"html/boleta.html", {'trazabilidad': trazability, 'maquinaria': maquinaria, 'usuario': usuario})
 
@@ -164,7 +166,6 @@ class Machine_view:
     
     # New machine view
     def new_machine(request):
-        print(request.user)
         if request.method == 'POST':
             maquinariaform = MaquinariaForm(request.POST)
             if maquinariaform.is_valid():
@@ -190,7 +191,7 @@ class Machine_view:
                     print(e)
                     return redirect('nueva_maquinaria')
                 
-                orden= user.get_orden()
+                orden= user.orden
                 time_now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
                 # Creando la trazabilidad

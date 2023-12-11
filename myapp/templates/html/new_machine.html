@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,35 +10,35 @@
     <style id="applicationStylesheet" type="text/css">
     </style>
 </head>
+
 <body>
-	<div class="container">
+    <div class="container">
         <h2>NUEVA ORDEN DE SERVICIO</h2>
         {% if messages %}
-            {% for message in messages %}
-                <div class="alert {{ message.tags }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
+        {% for message in messages %}
+        <div class="alert {{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
         {% endif %}
         <form method="post" action="{% url 'nueva_maquinaria' %}">
             {% csrf_token %}
-            
-                <div class="form-group">
-                    {{ form.as_p }}
-                    <h2>Autenticacion</h2>
-                    <div class="form-group">
-                        <label for="Email">Email:</label>
-                        <input id="email" type="email" name="email" required></input>
-                    </div>
-                    <div class="form-group">
-                        <label for="problema">Contraseña:</label>
-                        <input type="password" id="password1" name="password1" required></input>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn">Agregar Nuevo</button>
-                    </div>
-                    </form>
+            {{ form.as_p }}
+            <h2>Autenticacion</h2>
+            <div class="form-group">
+                <label for="Email">Email:</label>
+                <input id="email" type="email" name="email" required></input>
+            </div>
+            <div class="form-group">
+                <label for="problema">Contraseña:</label>
+                <input type="password" id="password1" name="password1" required></input>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn">Agregar Nuevo</button>
+            </div>
+        </form>
         <a href="{% url 'maquinaria' %}">Volver</a>
     </div>
 </body>
+
 </html>

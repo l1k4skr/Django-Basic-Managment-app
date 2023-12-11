@@ -3,7 +3,7 @@
 <head>
     {% load static %}
     <title>Confirmar Eliminación</title>
-    <link rel="stylesheet" href="{% static 'css/style_manual.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style_index.css' %}">
 
 </head>
 <body>
@@ -12,6 +12,6 @@
         {% csrf_token %}
         <button type="submit">Confirmar Eliminación</button>
     </form>
-    <a href="{% url 'manuales' %}">Cancelar</a>
+    <a href="{% url 'cliente' %}">Cancelar</a>
 </body>
 </html>
