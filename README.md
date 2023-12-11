@@ -20,7 +20,7 @@ Este es un proyecto de gestión de maquinaria médica desarrollado en Django. Pe
 ## Requisitos
 
 - Python 3.x
-- Django 3.x
+- Django 4.x
 - Otros requisitos específicos de tu proyecto
 
 ## Instalación
