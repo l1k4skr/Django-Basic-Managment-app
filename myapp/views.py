@@ -10,14 +10,14 @@ import os
 import time
 
 # VIEWS
+# Home view
+def home(request):
+    return render(request, "html/home.html")
 
 # Index view
 def index(request):
     return render(request, "html/index.html")
 
-# Home view
-def home(request):
-    return render(request, "html/home.html")
 
 # Login view
 def login_view(request):

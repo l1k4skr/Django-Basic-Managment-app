@@ -19,6 +19,7 @@ urlpatterns = [
     # Trazabilidad
     path('index/trazabilidad/', views.trazability, name="trazability"),
     path('index/trazabilidad/boleta/<int:id>', views.boleta, name="boleta"),
+    
     # Maquinaria
     path('index/maquinaria/', views.machine, name="maquinaria"),
     path('index/maquinaria/nueva_maquinaria/', views.new_machine, name="nueva_maquinaria"),

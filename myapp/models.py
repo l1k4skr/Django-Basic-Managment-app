@@ -11,18 +11,18 @@ class User(models.Model):
     siglas = models.CharField(max_length=2)  # Ejemplo: AA, BB, CC (siglas de técnicos)
     rut = models.CharField(max_length=20)
     direccion = models.CharField(max_length=100)
-    email = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100)
     telefono = models.CharField(max_length=15)
     cargo = models.CharField(max_length=100)
     password = models.CharField(max_length=20)
     last_login = models.DateTimeField(auto_now=True)
-    orden = models.CharField(max_length=100, default=generar_numero_aleatorio)
+    orden = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.username
+        return self.username # print(User.objects.all()[0]) -> "Juan perez"
 
     def get_orden(self):
-        return self.siglas + generar_numero_aleatorio()
+        return self.siglas + generar_numero_aleatorio() # BB12345678
 
 class Cliente(models.Model):
     nombre = models.CharField(max_length=100)
@@ -38,12 +38,12 @@ class Cliente(models.Model):
 class Maquinaria(models.Model):
     orden = models.CharField(max_length=100, default=generar_numero_aleatorio)
     numero_serie = models.CharField(max_length=100)
-    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    cliente = models.CharField(max_length=100)
     maquinaria = models.CharField(max_length=100)
     marca = models.CharField(max_length=100)
     año = models.PositiveIntegerField()
-    fecha = models.DateField()
-    fecha_creacion_m = models.DateTimeField()
+    fecha = models.DateField() # Fecha de creación de la orden: 2021-01-01
+    fecha_creacion_m = models.DateTimeField() # Fecha de creación de la orden: 2021-01-01 12:00:00
     problema = models.TextField(blank=True)
 
     def __str__(self):
@@ -60,7 +60,7 @@ class Trazabilidad(models.Model):
     fecha_creacion_t = models.DateTimeField()
 
     def __str__(self):
-        return f"{self.cliente_trazabilidad} - {self.maquinaria_trazabilidad} - {self.fecha_trazabilidad}"
+        return f"{self.cliente_trazabilidad} - {self.maquinaria_trazabilidad} - {self.fecha_trazabilidad}" # Juan Perez - Maquina 1 - 2021-01-01
 
 class Manual(models.Model):
     nombre_manual = models.CharField(max_length=100)
